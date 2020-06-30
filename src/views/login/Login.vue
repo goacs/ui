@@ -17,11 +17,13 @@
                     v-model="username"
                     label="Username"
                     type="text"
+                    prepend-icon="mdi-account"
                 ></v-text-field>
                 <v-text-field
                     v-model="password"
                     label="Password"
                     type="password"
+                    prepend-icon="mdi-key"
                 ></v-text-field>
             </v-card-text>
             <v-card-actions>

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import device from './device'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -11,6 +13,7 @@ const store = new Vuex.Store({
   actions: {
   },
   modules: {
+    device: device
   }
 })
 

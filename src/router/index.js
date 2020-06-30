@@ -14,6 +14,11 @@ const routes = [
         path: '',
         name: 'dashboard',
         component: () => import('@/views/home/Dashboard.vue')
+      },
+      {
+        path: 'devices',
+        name: 'devices-list',
+        component: () => import('@/views/device/DeviceList.vue')
       }
     ],
     meta: {

@@ -12,6 +12,7 @@ import router from './router'
 Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'http://api.mms.test:8085/api'
+axios.defaults.headers['Authorization'] = 'Bearer {auth_token}'
 
 Vue.use(VueAxios, axios)
 

@@ -9,22 +9,15 @@ export default new Vuetify({
         dark: false,
         themes: {
             dark: {
-                primary: '#1AA6C3',
+                primary: '#64b5f6',
                 accent: '#50708E',
-                secondary: '#798EEA',
-                success: '#4CAF50',
-                info: '#2196F3',
-                warning: '#FB8C00',
-                error: '#FF5252'
+                secondary: '#1565c0',
             },
             light: {
-                primary: '#499BEA',
+                primary: '#64b5f6',
                 accent: '#5381AD',
-                secondary: '#798EEA',
-                success: '#4CAF50',
-                info: '#AC34FF',
-                warning: '#FB8C00',
-                error: '#FF5252'
+                secondary: '#1565c0',
+
             }
         }
     }
