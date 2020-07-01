@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <v-row>
+      <v-col cols="12">
+        <div class="text-h5">Devices List</div>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="12">
       <v-data-table
@@ -7,9 +13,22 @@
         :options.sync="options"
         :loading="loading"
         :server-items-length="total"
-      ></v-data-table>
+      >
+        <template v-slot:item.actions="{ item }">
+          <v-btn
+            elevation="0"
+            fab
+            small
+            color="secondary"
+            :to="{ name: 'devices-view', params: { uuid: item.uuid } }"
+          >
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </template>
+      </v-data-table>
       </v-col>
     </v-row>
+  </div>
 </template>
 
 <script>
@@ -39,6 +58,10 @@ export default {
           text: 'Last connection time',
           value: 'updated_at',
         },
+        {
+          text: 'Actions',
+          value: 'actions'
+        }
       ]
     };
   },

@@ -19,6 +19,11 @@ const routes = [
         path: 'devices',
         name: 'devices-list',
         component: () => import('@/views/device/DeviceList.vue')
+      },
+      {
+        path: 'devices/:uuid',
+        name: 'devices-view',
+        component: () => import('@/views/device/DeviceView.vue')
       }
     ],
     meta: {
