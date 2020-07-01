@@ -8,6 +8,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import store from './store'
 import router from './router'
+import moment from 'moment'
 
 Vue.config.productionTip = false
 
@@ -15,6 +16,9 @@ axios.defaults.baseURL = 'http://api.mms.test:8085/api'
 axios.defaults.headers['Authorization'] = 'Bearer {auth_token}'
 
 Vue.use(VueAxios, axios)
+
+moment.defaultFormat = "YYYY-MM-DD hh:mm:ss"
+Vue.use(require('vue-moment'), { moment })
 
 const atuhPluginOptions = { ...DEFAULT_OPTIONS,
   ...{

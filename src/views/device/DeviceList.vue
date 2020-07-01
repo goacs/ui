@@ -7,39 +7,34 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-      <v-data-table
-        :items="items"
-        :headers="headers"
-        :options.sync="options"
-        :loading="loading"
-        :server-items-length="total"
-      >
-        <template v-slot:item.actions="{ item }">
-          <v-btn
-            elevation="0"
-            fab
-            small
-            color="secondary"
-            :to="{ name: 'devices-view', params: { uuid: item.uuid } }"
-          >
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-        </template>
-      </v-data-table>
+        <PaginatedTable
+          :headers="headers"
+          action="device/list"
+        >
+          <template v-slot:item.actions="{ item }">
+            <v-btn
+                    elevation="0"
+                    fab
+                    small
+                    color="secondary"
+                    :to="{ name: 'devices-view', params: { uuid: item.uuid } }"
+            >
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+        </PaginatedTable>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import PaginatedTable from "../../components/PaginatedTable";
 export default {
   name: "DeviceList",
+  components: {PaginatedTable},
   data() {
     return {
-      items: [],
-      total: 0,
-      options: {},
-      loading: false,
       headers: [
         {
           text: 'UUID',
@@ -66,24 +61,8 @@ export default {
     };
   },
   methods: {
-    async fetchItems() {
-      try {
-        this.loading = true;
-        const response = await this.$store.dispatch('device/list', {
-          page: this.options.page,
-          perPage: this.options.itemsPerPage,
-        })
-        this.items = response.data.data
-        this.total = response.data.total
-      } catch (e) {
-        console.error("Cannot fetch devices")
-      } finally {
-        this.loading = false;
-      }
-    }
   },
   mounted() {
-    this.fetchItems();
   }
 
 }

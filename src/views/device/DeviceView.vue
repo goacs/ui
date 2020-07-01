@@ -1,24 +1,29 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <tbody>
-      <tr>
-        <td>UUID</td>
-        <td>{{ device.uuid }}</td>
-      </tr>
-      <tr>
-        <td>Serial</td>
-        <td>{{ device.serial_number }}</td>
-      </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+  <div>
+    <v-row>
+      <v-col md="6" cols="12">
+        <DeviceInfo :device="device"></DeviceInfo>
+      </v-col>
+      <v-col md="6" cols="12">
+        <DeviceLogs></DeviceLogs>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col lg="12" cols="12">
+        <DeviceParameterList></DeviceParameterList>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import DeviceInfo from "./DeviceInfo";
+import DeviceParameterList from "./DeviceParameterList";
+import DeviceLogs from "./DeviceLogs";
 export default {
   name: "DeviceView",
+  components: {DeviceLogs, DeviceParameterList, DeviceInfo},
   data() {
     return {
 
