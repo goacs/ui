@@ -5,6 +5,8 @@
           :options.sync="options"
           :loading="loading"
           :server-items-length="total"
+          :footer-props="footerOptions"
+          :dense="dense"
   >
     <template v-for="slotName in itemSlots" #[slotName]="{item}">
       <slot
@@ -14,17 +16,6 @@
       </slot>
     </template>
 
-    <template v-slot:item.actions="{ item }">
-      <v-btn
-              elevation="0"
-              fab
-              small
-              color="secondary"
-              :to="{ name: 'devices-view', params: { uuid: item.uuid } }"
-      >
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
@@ -32,20 +23,30 @@
 export default {
   name: "PaginatedTable",
   props: {
+    dense: {
+      default: () => false
+    },
     headers: {
       type: Array,
       required: true,
     },
     action: {
-      type: String,
+      type: [String, Object],
       required: true,
+    },
+    autoload: {
+      type: Boolean,
+      default: () => true,
     }
   },
   data() {
     return {
       items: [],
       total: 0,
-      options: {},
+      footerOptions: {itemsPerPageOptions: [25, 50, 100, 300]},
+      options: {
+        itemsPerPage: 25,
+      },
       loading: false,
     };
   },
@@ -53,10 +54,7 @@ export default {
     async fetchItems() {
       try {
         this.loading = true;
-        const response = await this.$store.dispatch(this.action, {
-          page: this.options.page,
-          perPage: this.options.itemsPerPage,
-        })
+        const response = await this.$store.dispatch(this.actionData.name, this.actionData.parameters)
         this.items = response.data.data
         this.total = response.data.total
       } catch (e) {
@@ -70,6 +68,25 @@ export default {
     itemSlots() {
       return Object.keys(this.$scopedSlots).filter(name => name.substr(0, 5) === 'item.');
     },
+    actionData() {
+      if(typeof this.action === 'string') {
+        return {
+          name: this.action,
+          parameters: {
+            page: this.options.page,
+            perPage: this.options.itemsPerPage,
+          }
+        }
+      }
+      return {
+        name: this.action.name,
+        parameters: {
+          ...this.action.parameters,
+          page: this.options.page,
+          perPage: this.options.itemsPerPage,
+        }
+      }
+    }
   },
   watch: {
     options: {
@@ -80,7 +97,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchItems();
+
   }
 }
 </script>

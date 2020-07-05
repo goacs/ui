@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-if="device">
     <v-row>
       <v-col md="6" cols="12">
-        <DeviceInfo :device="device"></DeviceInfo>
+        <DeviceInfo></DeviceInfo>
       </v-col>
       <v-col md="6" cols="12">
         <DeviceLogs></DeviceLogs>
@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      device: 'device/getDevice'
+      device: 'device/getDevice',
     }),
   },
   mounted() {

@@ -43,14 +43,15 @@
 </template>
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     name: "DeviceInfo",
-    props: {
-      device: {
-        required: true,
-        type: Object,
-      }
-    }
+    computed: {
+      ...mapGetters({
+        device: 'device/getDevice',
+      }),
+    },
   }
 </script>
 

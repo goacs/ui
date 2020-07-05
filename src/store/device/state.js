@@ -1,3 +1,4 @@
 export default {
-  device: {}
+  device: {},
+  parameters: [],
 }
