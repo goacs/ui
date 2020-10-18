@@ -5,7 +5,6 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueAuth, { DEFAULT_OPTIONS } from '@d0whc3r/vue-auth-plugin';
 import App from './App.vue'
-import vuetify from './plugins/vuetify';
 import store from './store'
 import router from './router'
 import moment from 'moment'
@@ -50,7 +49,6 @@ const atuhPluginOptions = { ...DEFAULT_OPTIONS,
 Vue.use(VueAuth, atuhPluginOptions)
 
 new Vue({
-  vuetify,
   store,
   router,
   render: h => h(App)
