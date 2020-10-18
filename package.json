@@ -9,8 +9,12 @@
   },
   "dependencies": {
     "@d0whc3r/vue-auth-plugin": "^1.8.2",
+    "autoprefixer": "^9.8",
     "axios": "^0.19.2",
+    "buefy": "^0.9.3",
     "core-js": "^3.6.5",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^1.9.4",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-moment": "^4.1.0",

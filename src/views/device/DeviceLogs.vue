@@ -1,12 +1,16 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Logs
-    </v-card-title>
-    <v-card-text>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        Logs
+      </p>
+    </header>
+    <div class="card-content">
 
-    </v-card-text>
-  </v-card>
+      <div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

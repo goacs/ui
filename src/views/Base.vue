@@ -1,82 +1,38 @@
 <template>
-  <v-app>
-    <v-navigation-drawer
-            :clipped="$vuetify.breakpoint.lgAndUp"
-            right
-            dark
-            app
-            v-model="drawer"
-    >
-      <v-list
-              dense
-              nav
-              class="py-0"
-      >
-        <v-list-item two-line>
-          <v-list-item-avatar>
-            <v-icon>mdi-face</v-icon>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>{{user.email}}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-divider></v-divider>
-
-        <v-list-item link :to="{ name: 'devices-list' }">
-          <v-list-item-icon>
-            <v-icon>mdi-access-point</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Devices list</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-wrench</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn
-                  block
-                  color="secondary"
-          >Logout</v-btn>
+  <div id="app">
+    <nav class="navbar is-white">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item brand-text" href="/">
+            GoACS
+          </a>
+          <div class="navbar-burger burger" data-target="navMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
-      </template>
-    </v-navigation-drawer>
-    <v-app-bar
-            app
-            color="accent"
-            dark
-            :clipped-left="$vuetify.breakpoint.lgAndUp"
-            clipped-right
-    >
-      <div class="d-flex align-center">
-        <v-img
-                class="shrink mr-2"
-                contain
-                src="../assets/logo.png"
-                transition="scale-transition"
-                width="130"
-        />
+        <div id="navMenu" class="navbar-menu">
+          <div class="navbar-start">
+            <router-link class="navbar-item" :to="{name: 'dashboard'}">
+              Home
+            </router-link>
+            <router-link class="navbar-item" :to="{name: 'devices-list'}">
+              Devices
+            </router-link>
+            <router-link class="navbar-item" :to="{name: 'settings'}">
+              Settings
+            </router-link>
+          </div>
+
+        </div>
       </div>
-      <v-spacer></v-spacer>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    </v-app-bar>
-    <v-main>
-      <v-container fluid>
-       <router-view :key="$route.path"></router-view>
-      </v-container>
-    </v-main>
-  </v-app>
+    </nav>
+    <!-- END NAV -->
+    <div class="container">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <script>

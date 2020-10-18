@@ -1,41 +1,28 @@
 <template>
-    <v-form @submit.prevent="login">
-        <v-card class="elevation-12">
-            <v-toolbar
-                    dark
-                    flat
-                    color="secondary"
-                    height="100"
-            >
-                <v-toolbar-title class="centered">
-                    <img src="../../assets/logo.png"  alt="GoACS"/>
-                </v-toolbar-title>
-            </v-toolbar>
+    <div id="app">
+        <div class="column">
+            <h3 class="title has-text-black">Login</h3>
+            <hr class="login-hr">
+            <div class="box">
+                <form>
+                    <section>
+                        <b-field label="Username">
+                            <b-input v-model="username"></b-input>
+                        </b-field>
 
-            <v-card-text>
-                <v-text-field
-                    v-model="username"
-                    label="Username"
-                    type="text"
-                    prepend-icon="mdi-account"
-                ></v-text-field>
-                <v-text-field
-                    v-model="password"
-                    label="Password"
-                    type="password"
-                    prepend-icon="mdi-key"
-                ></v-text-field>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer/>
-                <v-btn
-                    type="submit"
-                    color="primary"
-                    :loading="loading"
-                    >Login</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-form>
+                        <b-field label="Password">
+                            <b-input type='password' password-reveal v-model="password"></b-input>
+                        </b-field>
+                        <b-button
+                                native-type="submit"
+                                :loading="loading"
+                                @click.prevent="login"
+                                type="is-primary" >Login</b-button>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -63,10 +50,4 @@
 </script>
 
 <style scoped>
-    .centered {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
 </style>
