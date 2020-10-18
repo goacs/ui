@@ -13,7 +13,7 @@
         <div class="hero-body">
           <div class="container">
             <h1 class="title">
-              Hello, Admin.
+              Hello, {{username}}.
             </h1>
             <h2 class="subtitle">
               I hope you are having a great day!
@@ -25,20 +25,20 @@
         <div class="tile is-ancestor has-text-centered">
           <div class="tile is-parent">
             <article class="tile is-child box">
-              <p class="title">439k</p>
+              <p class="title">{{ dashboard.devices_count }}</p>
               <p class="subtitle">Devices</p>
             </article>
           </div>
           <div class="tile is-parent">
             <article class="tile is-child box">
-              <p class="title">59k</p>
+              <p class="title">{{ dashboard.informs_count }}</p>
               <p class="subtitle">Informs last hour</p>
             </article>
           </div>
           <div class="tile is-parent">
             <article class="tile is-child box">
-              <p class="title">19</p>
-              <p class="subtitle">Exceptions</p>
+              <p class="title">{{ dashboard.exceptions_count  }}</p>
+              <p class="subtitle">Exceptions last 24 hours</p>
             </article>
           </div>
         </div>
@@ -120,8 +120,20 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
-    name: "Dashboard"
+    name: "Dashboard",
+    computed: {
+      ...mapGetters({
+        dashboard: "dashboard/getDashboard"
+      }),
+      username() {
+        return this.$auth.user().username || "UKNNOWN"
+      }
+    },
+    mounted() {
+      this.$store.dispatch("dashboard/fetchDashboard")
+    }
   }
 </script>
 
