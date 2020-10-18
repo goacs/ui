@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import device from './device'
+import dashboard from './dashboard'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
   actions: {
   },
   modules: {
-    device: device
+    device,
+    dashboard
   }
 })
 

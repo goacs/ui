@@ -1,57 +1,41 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Parameters
-    </v-card-title>
-    <v-card-text>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Edit parameter</span>
-          </v-card-title>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        Parameters
+      </p>
+    </header>
+    <div class="card-content">
+      <div>
+        <PaginatedTable
+                :action="action"
+                :headers="headers"
+                :autoload="false"
+                :dense="true"
+                ref="table"
+        >
+          <b-table-column field="name" label="Name" v-slot="props">
+            {{ props.row.name }}
+          </b-table-column>
 
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  {{ editedItem.name }}
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" lg="12">
-                  <v-text-field v-model="editedItem.value" label="Value"></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
+          <b-table-column field="value" label="Value" v-slot="props">
+            {{ props.row.value }}
+          </b-table-column>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">Cancel</v-btn>
-            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <PaginatedTable
-      :action="action"
-      :headers="headers"
-      :autoload="false"
-      :dense="true"
-      ref="table"
-      >
-        <template v-slot:item.flag="{ item }">
-          {{ parseFlag(item.flag) }}
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-            >mdi-pencil</v-icon>
-        </template>
-      </PaginatedTable>
-    </v-card-text>
-  </v-card>
+          <b-table-column field="flag" label="Flag" v-slot="props">
+            {{ parseFlag(props.row.flag) }}
+          </b-table-column>
+
+          <b-table-column field="actions" label="Actions" v-slot="props">
+            <b-button type="is-primary" size='is-small' @click="editItem(props.row)">
+              <b-icon icon="pencil" size="is-small"></b-icon>
+            </b-button>
+          </b-table-column>
+
+        </PaginatedTable>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

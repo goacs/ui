@@ -1,22 +1,23 @@
 <template>
-  <v-data-table
-          :items="items"
-          :headers="headers"
-          :options.sync="options"
-          :loading="loading"
-          :server-items-length="total"
-          :footer-props="footerOptions"
-          :dense="dense"
-  >
-    <template v-for="slotName in itemSlots" #[slotName]="{item}">
-      <slot
-              :name="slotName"
-              :item="item"
-      >
-      </slot>
-    </template>
+  <div>
+    <b-table
+            :data="items"
+            :loading="loading"
+            paginated
+            backend-pagination
+            :total="total"
+            :per-page="options.itemsPerPage"
+            :current-page="options.page"
+            @page-change="pageChanged"
+            aria-next-label="Next page"
+            aria-previous-label="Previous page"
+            aria-page-label="Page"
+            aria-current-label="Current page"
 
-  </v-data-table>
+            backend-sorting>
+      <slot></slot>
+    </b-table>
+  </div>
 </template>
 
 <script>
@@ -25,10 +26,6 @@ export default {
   props: {
     dense: {
       default: () => false
-    },
-    headers: {
-      type: Array,
-      required: true,
     },
     action: {
       type: [String, Object],
@@ -46,11 +43,16 @@ export default {
       footerOptions: {itemsPerPageOptions: [25, 50, 100, 300]},
       options: {
         itemsPerPage: 25,
+        page: 1,
       },
       loading: false,
     };
   },
   methods: {
+    pageChanged(pageNumber) {
+      this.options.page = pageNumber
+      this.fetchItems();
+    },
     async fetchItems() {
       try {
         this.loading = true;
@@ -88,16 +90,16 @@ export default {
       }
     }
   },
-  watch: {
-    options: {
-      deep: true,
-      handler() {
-        this.fetchItems()
-      }
-    },
-  },
+  // watch: {
+  //   options: {
+  //     deep: true,
+  //     handler() {
+  //       this.fetchItems()
+  //     }
+  //   },
+  // },
   mounted() {
-
+  this.fetchItems()
   }
 }
 </script>

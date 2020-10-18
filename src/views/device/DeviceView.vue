@@ -1,18 +1,18 @@
 <template>
   <div v-if="device">
-    <v-row>
-      <v-col md="6" cols="12">
+    <div class="columns">
+      <div class="column">
         <DeviceInfo></DeviceInfo>
-      </v-col>
-      <v-col md="6" cols="12">
+      </div>
+      <div class="column">
         <DeviceLogs></DeviceLogs>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col lg="12" cols="12">
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
         <DeviceParameterList></DeviceParameterList>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </div>
 </template>
 
