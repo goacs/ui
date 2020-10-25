@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <v-row>
-      <v-col cols="12">
-        <div class="text-h5">Devices List</div>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
+  <div class="columns">
+    <div class="column">
         <PaginatedTable
           action="device/list"
         >
@@ -32,8 +26,7 @@
             </b-button>
           </b-table-column>
         </PaginatedTable>
-      </v-col>
-    </v-row>
+    </div>
   </div>
 </template>
 

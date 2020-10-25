@@ -4,17 +4,21 @@
             :data="items"
             :loading="loading"
             paginated
-            backend-pagination
             :total="total"
             :per-page="options.itemsPerPage"
             :current-page="options.page"
             @page-change="pageChanged"
+            @filters-change="filterChanged"
             aria-next-label="Next page"
             aria-previous-label="Previous page"
             aria-page-label="Page"
             aria-current-label="Current page"
-
-            backend-sorting>
+            v-bind="$props"
+            backend-pagination
+            backend-filtering
+            backend-sorting
+            :debounce-search="500"
+    >
       <slot></slot>
     </b-table>
   </div>
@@ -39,6 +43,7 @@ export default {
   data() {
     return {
       items: [],
+      filter: {},
       total: 0,
       footerOptions: {itemsPerPageOptions: [25, 50, 100, 300]},
       options: {
@@ -51,6 +56,10 @@ export default {
   methods: {
     pageChanged(pageNumber) {
       this.options.page = pageNumber
+      this.fetchItems();
+    },
+    filterChanged(filter) {
+      this.filter = filter;
       this.fetchItems();
     },
     async fetchItems() {
@@ -77,6 +86,7 @@ export default {
           parameters: {
             page: this.options.page,
             perPage: this.options.itemsPerPage,
+            filter: this.filter
           }
         }
       }
@@ -86,6 +96,7 @@ export default {
           ...this.action.parameters,
           page: this.options.page,
           perPage: this.options.itemsPerPage,
+          filter: this.filter
         }
       }
     }

@@ -14,16 +14,54 @@
                 :dense="true"
                 ref="table"
         >
-          <b-table-column field="name" label="Name" v-slot="props">
+          <b-table-column field="name" label="Name" searchable>
+            <template
+                    slot="searchable"
+                    slot-scope="props">
+              <b-input
+                      v-model="props.filters[props.column.field]"
+                      placeholder="Search..."
+                      icon="magnify"
+                      size="is-small" />
+            </template>
+            <template v-slot="props">
             {{ props.row.name }}
+            </template>
           </b-table-column>
 
-          <b-table-column field="value" label="Value" v-slot="props">
-            {{ props.row.value }}
+          <b-table-column field="value" label="Value" searchable>
+            <template
+                    slot="searchable"
+                    slot-scope="props">
+              <b-input
+                      v-model="props.filters[props.column.field]"
+                      placeholder="Search..."
+                      icon="magnify"
+                      size="is-small" />
+            </template>
+            <template v-slot="props">
+              {{ props.row.value }}
+            </template>
           </b-table-column>
 
-          <b-table-column field="flag" label="Flag" v-slot="props">
-            {{ parseFlag(props.row.flag) }}
+          <b-table-column field="flag" label="Flag" searchable>
+            <template
+                    slot="searchable"
+                    slot-scope="props">
+                <b-taginput
+                        v-model="props.filters[props.column.field]"
+                        :data="flagSelection"
+                        autocomplete
+                        :allow-new="false"
+                        :open-on-focus="true"
+                        field="name"
+                        placeholder="Filter flag"
+                        size="is-small">
+                </b-taginput>
+            </template>
+            <template v-slot="props">
+              {{ parseFlag(props.row.flag) }}
+            </template>
           </b-table-column>
 
           <b-table-column field="actions" label="Actions" v-slot="props">
@@ -50,7 +88,8 @@
         headers: [
           {
             text: 'Name',
-            value: 'name'
+            value: 'name',
+            searchable: true,
           },
           {
             text: 'Value',
@@ -63,6 +102,20 @@
           {
             text: 'Actions',
             value: 'actions'
+          }
+        ],
+        flagSelection: [
+          {
+            type: 'r',
+            name: 'Read',
+          },
+          {
+            type: 'w',
+            name: 'Write',
+          },
+          {
+            type: 'a',
+            name: 'AddObject',
           }
         ],
         action: {
@@ -84,7 +137,6 @@
     },
     methods: {
       parseFlag(flag) {
-        console.log(flag)
         const parser = new FlagParser(flag)
         return parser.toString()
       },

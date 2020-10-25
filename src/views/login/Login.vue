@@ -17,7 +17,7 @@
                                 native-type="submit"
                                 :loading="loading"
                                 @click.prevent="login"
-                                type="is-primary" >Login</b-button>
+                                :type="[hasError ? 'is-danger' : 'is-primary']" >Login</b-button>
                     </section>
                 </form>
             </div>
@@ -32,6 +32,7 @@
             username: '',
             password: '',
             loading: false,
+            hasError: false
         }),
         methods: {
             async login() {
@@ -41,6 +42,8 @@
                         username: this.username,
                         password: this.password,
                     })
+                } catch (e) {
+                    this.hasError = true;
                 } finally {
                     this.loading = false
                 }
