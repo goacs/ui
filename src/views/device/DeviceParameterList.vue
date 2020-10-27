@@ -44,35 +44,66 @@
             </template>
           </b-table-column>
 
-          <b-table-column field="flag" label="Flag" searchable>
-            <template
-                    slot="searchable"
-                    slot-scope="props">
-                <b-taginput
-                        v-model="props.filters[props.column.field]"
-                        :data="flagSelection"
-                        autocomplete
-                        :allow-new="false"
-                        :open-on-focus="true"
-                        field="name"
-                        placeholder="Filter flag"
-                        size="is-small">
-                </b-taginput>
-            </template>
+          <b-table-column field="flag" label="Flag">
+<!--            <template-->
+<!--                    slot="searchable"-->
+<!--                    slot-scope="props">-->
+<!--                <CheckboxSelection-->
+<!--                        v-model="props.filters[props.column.field]"-->
+<!--                        :items="flagSelection"-->
+<!--                        field="name"-->
+<!--                        placeholder="Filter flag"-->
+<!--                        size="is-small">-->
+<!--                </CheckboxSelection>-->
+<!--            </template>-->
             <template v-slot="props">
               {{ parseFlag(props.row.flag) }}
             </template>
           </b-table-column>
 
           <b-table-column field="actions" label="Actions" v-slot="props">
-            <b-button type="is-primary" size='is-small' @click="editItem(props.row)">
-              <b-icon icon="pencil" size="is-small"></b-icon>
-            </b-button>
+            <section class="b-tooltips">
+              <b-tooltip label="New instance" type="is-dark" v-if="props.row.flag.add_object === true">
+                <b-button type="is-primary" size='is-small'>
+                  <b-icon icon="plus" size="is-small"></b-icon>
+                </b-button>
+              </b-tooltip>
+              <b-tooltip label="Edit parameter" type="is-dark">
+              <b-button type="is-primary" size='is-small' @click="editItem(props.row)">
+                <b-icon icon="pencil" size="is-small"></b-icon>
+              </b-button>
+              </b-tooltip>
+            </section>
           </b-table-column>
 
         </PaginatedTable>
       </div>
     </div>
+    <b-modal
+          v-model="dialog"
+    >
+    <form>
+      <div class="modal-card" style="width: auto">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit parameter</p>
+        </header>
+        <section class="modal-card-body">
+          <b-field :label="editedItem.name">
+            <b-input
+                    :disabled="editedItem.flag && editedItem.flag.write === false"
+                    type="text"
+                    v-model="editedItem.value"
+                    placeholder="Item Value">
+            </b-input>
+          </b-field>
+        </section>
+        <footer class="modal-card-foot">
+          <b-button type="button" @click="dialog = false">Close</b-button>
+          <b-button class="is-primary" @click="save" :loading="saving">Save</b-button>
+        </footer>
+      </div>
+    </form>
+    </b-modal>
   </div>
 </template>
 
@@ -82,7 +113,7 @@
   import {FlagParser} from "../../helpers/FlagParser";
   export default {
     name: "DeviceParameterList",
-    components: {PaginatedTable},
+    components: { PaginatedTable },
     data() {
       return {
         headers: [
@@ -106,16 +137,16 @@
         ],
         flagSelection: [
           {
-            type: 'r',
-            name: 'Read',
+            value: 'r',
+            text: 'Read',
           },
           {
-            type: 'w',
-            name: 'Write',
+            value: 'w',
+            text: 'Write',
           },
           {
-            type: 'a',
-            name: 'AddObject',
+            value: 'a',
+            text: 'AddObject',
           }
         ],
         action: {
@@ -127,6 +158,7 @@
         dialog: false,
         editedItem: {},
         editedIndex: -1,
+        saving: false,
       }
     },
     computed: {
@@ -149,12 +181,24 @@
         this.dialog = true
       },
       save() {
-        this.$store.dispatch('device/updateParameters', {
-          uuid: this.device.uuid,
-          name: this.editedItem.name,
-          value: this.editedItem.value,
-        })
-        this.dialog = false
+        this.saving = true
+        try {
+          this.$store.dispatch('device/updateParameters', {
+            uuid: this.device.uuid,
+            name: this.editedItem.name,
+            value: this.editedItem.value,
+          })
+          this.dialog = false
+        } catch (e) {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Error. Cannot save parameter`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        } finally {
+          this.saving = false
+        }
       }
     },
     beforeDestroy() {
@@ -163,6 +207,11 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .b-tooltips {
+    .b-tooltip:not(:last-child) {
+      margin-right: .5em
+    }
 
+  }
 </style>

@@ -66,8 +66,8 @@ export default {
       try {
         this.loading = true;
         const response = await this.$store.dispatch(this.actionData.name, this.actionData.parameters)
-        this.items = response.data.data
-        this.total = response.data.total
+        this.items = response.data.data ?? []
+        this.total = response.data.total ?? 0
       } catch (e) {
         console.error("Cannot load table items")
       } finally {

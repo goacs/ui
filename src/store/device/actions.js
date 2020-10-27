@@ -18,7 +18,7 @@ export default {
   async fetchParameters({ commit }, parameters) {
     const filterStr = filterToQueryString(parameters.filter)
     try {
-      const response = await this._vm.$http.get(`/device/${parameters.uuid}/parameters?page=${parameters.page}&per_page=${parameters.perPage}&filter=${filterStr}`)
+      const response = await this._vm.$http.get(`/device/${parameters.uuid}/parameters?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
       commit('setParameters', response.data)
       return response
     } catch (e) {

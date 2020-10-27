@@ -7,7 +7,7 @@ export class FlagParser {
     let ret = ""
     Object.keys(this.flag).forEach((item) => {
       if(this.flag[item] === true) {
-        ret += item
+        ret += `${item} `
       }
     })
 
