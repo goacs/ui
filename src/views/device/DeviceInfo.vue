@@ -39,6 +39,11 @@
         </tbody>
       </table>
       <div>
+        <b-button
+        @click="kick"
+        >
+          Kick
+        </b-button>
       </div>
     </div>
   </div>
@@ -54,6 +59,11 @@
         device: 'device/getDevice',
       }),
     },
+    methods: {
+      kick() {
+        this.$store.dispatch('device/kickDevice', this.device.uuid)
+      }
+    }
   }
 </script>
 

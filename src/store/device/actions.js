@@ -34,5 +34,8 @@ export default {
     } catch (e) {
       console.error("cannot update parameters", e)
     }
+  },
+  async kickDevice(context, uuid) {
+      return await this._vm.$http.get(`/device/${uuid}/kick`)
   }
 }
