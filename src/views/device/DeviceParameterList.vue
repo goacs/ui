@@ -64,7 +64,7 @@
           <b-table-column field="actions" label="Actions" v-slot="props">
             <section class="b-tooltips">
               <b-tooltip label="New instance" type="is-dark" v-if="props.row.flag.add_object === true">
-                <b-button type="is-primary" size='is-small'>
+                <b-button type="is-primary" size='is-small' @click="addObject(props.row)">
                   <b-icon icon="plus" size="is-small"></b-icon>
                 </b-button>
               </b-tooltip>
@@ -174,6 +174,13 @@
       },
       saveParameter(params) {
         console.log(params)
+      },
+      addObject(item) {
+        this.$store.dispatch('device/addObject', {
+          uuid: this.device.uuid,
+          name: item.name,
+          key: '',
+        })
       },
       editItem(item) {
         this.editedIndex = this.$refs.table.items

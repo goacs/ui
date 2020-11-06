@@ -37,5 +37,15 @@ export default {
   },
   async kickDevice(context, uuid) {
       return await this._vm.$http.get(`/device/${uuid}/kick`)
+  },
+  async addObject(context, params) {
+    const {uuid, name, key} = params
+    return await this._vm.$http.post(`/device/${uuid}/addobject`, {
+      name,
+      key,
+    })
+  },
+  async getParameterValues(context, uuid) {
+    return await this._vm.$http.post(`/device/${uuid}/getparametervalues`)
   }
 }

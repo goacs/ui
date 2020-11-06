@@ -44,6 +44,11 @@
         >
           Kick
         </b-button>
+        <b-button
+                @click="getParameterValues"
+        >
+          GetParameterValues
+        </b-button>
       </div>
     </div>
   </div>
@@ -62,6 +67,9 @@
     methods: {
       kick() {
         this.$store.dispatch('device/kickDevice', this.device.uuid)
+      },
+      getParameterValues() {
+        this.$store.dispatch('device/getParameterValues', this.device.uuid)
       }
     }
   }
