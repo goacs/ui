@@ -9,8 +9,7 @@ export default {
   async fetchDevice({ commit }, uuid) {
     try {
       const response = await this._vm.$http.get(`/device/${uuid}`)
-      console.log(response)
-      commit('setDevice', response.data)
+      commit('setDevice', response.data.data)
     } catch (e) {
       console.error("Cannot fetch device")
     }
@@ -19,7 +18,7 @@ export default {
     const filterStr = filterToQueryString(parameters.filter)
     try {
       const response = await this._vm.$http.get(`/device/${parameters.uuid}/parameters?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
-      commit('setParameters', response.data)
+      commit('setParameters', response.data.data)
       return response
     } catch (e) {
       console.error("Cannot fetch device parameters")

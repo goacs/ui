@@ -26,16 +26,16 @@ Vue.use(VueAxios, axios)
 moment.defaultFormat = "YYYY-MM-DD hh:mm:ss"
 Vue.use(require('vue-moment'), { moment })
 
-const atuhPluginOptions = { ...DEFAULT_OPTIONS,
+const authPluginOptions = { ...DEFAULT_OPTIONS,
   ...{
     authRedirect: '/auth/login',
     loginData: {
         url: '/auth/login',
         method: 'POST',
         redirect: '/',
-        customToken: (response) => response.data['token'],
+        customToken: (response) => response.data.data['token'],
         fetchUser: false,
-        fetchData: (response) => response.data['user'],
+        fetchData: (response) => response.data.data['user'],
     },
   },
   logoutData: {
@@ -46,7 +46,7 @@ const atuhPluginOptions = { ...DEFAULT_OPTIONS,
   },
 }
 
-Vue.use(VueAuth, atuhPluginOptions)
+Vue.use(VueAuth, authPluginOptions)
 
 new Vue({
   store,

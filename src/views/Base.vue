@@ -23,8 +23,13 @@
             <router-link class="navbar-item" :to="{name: 'settings'}">
               Settings
             </router-link>
-          </div>
 
+          </div>
+          <div class="navbar-end">
+            <router-link class="navbar-item" :to="{name: 'logout'}">
+              Logout
+            </router-link>
+          </div>
         </div>
       </div>
     </nav>

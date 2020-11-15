@@ -6,18 +6,24 @@
             <div class="box">
                 <form>
                     <section>
-                        <b-field label="Username">
+                        <b-field label="Username"
+                                 :type="errors['username'] ? 'is-danger' : ''"
+                                 :message="errors['username']"
+                        >
                             <b-input v-model="username"></b-input>
                         </b-field>
 
-                        <b-field label="Password">
+                        <b-field label="Password"
+                                 :type="errors['password'] ? 'is-danger' : ''"
+                                 :message="errors['password']"
+                        >
                             <b-input type='password' password-reveal v-model="password"></b-input>
                         </b-field>
                         <b-button
                                 native-type="submit"
                                 :loading="loading"
                                 @click.prevent="login"
-                                :type="[hasError ? 'is-danger' : 'is-primary']" >Login</b-button>
+                                :type="errors.length > 0 ? 'is-danger' : 'is-primary'" >Login</b-button>
                     </section>
                 </form>
             </div>
@@ -32,7 +38,7 @@
             username: '',
             password: '',
             loading: false,
-            hasError: false
+            errors: [],
         }),
         methods: {
             async login() {
@@ -43,7 +49,7 @@
                         password: this.password,
                     })
                 } catch (e) {
-                    this.hasError = true;
+                    this.errors = e.response.data.data;
                 } finally {
                     this.loading = false
                 }
