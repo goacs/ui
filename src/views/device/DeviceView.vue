@@ -1,10 +1,11 @@
 <template>
-  <div v-if="device">
+  <div v-if="device.uuid">
     <div class="columns">
-      <div class="column">
+      <div class="column is-half">
         <DeviceInfo></DeviceInfo>
       </div>
-      <div class="column">
+      <div class="column is-half">
+        <DeviceQueuedTasks></DeviceQueuedTasks>
         <DeviceLogs></DeviceLogs>
       </div>
     </div>
@@ -21,9 +22,10 @@ import { mapGetters } from 'vuex'
 import DeviceInfo from "./DeviceInfo";
 import DeviceParameterList from "./DeviceParameterList";
 import DeviceLogs from "./DeviceLogs";
+import DeviceQueuedTasks from "./DeviceQueuedTasks";
 export default {
   name: "DeviceView",
-  components: {DeviceLogs, DeviceParameterList, DeviceInfo},
+  components: {DeviceQueuedTasks, DeviceLogs, DeviceParameterList, DeviceInfo},
   data() {
     return {
 
@@ -37,8 +39,8 @@ export default {
       device: 'device/getDevice',
     }),
   },
-  mounted() {
-    this.$store.dispatch('device/fetchDevice',this.$route.params.uuid)
+  async created() {
+    await this.$store.dispatch('device/fetchDevice', this.$route.params.uuid)
   },
   beforeDestroy() {
     this.$store.commit('device/setDevice', {})

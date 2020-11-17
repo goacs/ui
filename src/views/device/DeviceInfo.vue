@@ -69,7 +69,7 @@
         this.$store.dispatch('device/kickDevice', this.device.uuid)
       },
       getParameterValues() {
-        this.$store.dispatch('device/getParameterValues', this.device.uuid)
+        this.$store.dispatch('device/fetchParameterValues', this.device.uuid)
       }
     }
   }

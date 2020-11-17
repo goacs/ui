@@ -44,7 +44,17 @@ export default {
       key,
     })
   },
-  async getParameterValues(context, uuid) {
+  async fetchParameterValues(context, uuid) {
     return await this._vm.$http.post(`/device/${uuid}/getparametervalues`)
+  },
+  async fetchQueuedTasks({ commit }, uuid) {
+    try {
+      const response = await this._vm.$http.get(`/device/${uuid}/tasks`)
+      commit('setQueuedTasks', response.data.data)
+      return response
+    } catch (e) {
+      console.log('cannot fetch queued tasks', e)
+    }
+
   }
 }
