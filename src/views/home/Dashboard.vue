@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-12">
+    <section class="column is-12">
       <!--          <nav class="breadcrumb" aria-label="breadcrumbs">-->
       <!--            <ul>-->
       <!--              <li><a href="../">Bulma</a></li>-->
@@ -43,86 +43,19 @@
           </div>
         </div>
       </section>
-      <div class="columns">
-        <div class="column is-12">
-          <div class="card events-card">
-            <header class="card-header">
-              <p class="card-header-title">
-                Events
-              </p>
-              <a href="#" class="card-header-icon" aria-label="more options">
-                  <span class="icon">
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                  </span>
-              </a>
-            </header>
-            <div class="card-table">
-              <div class="content">
-                <table class="table is-fullwidth is-striped">
-                  <tbody>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  <tr>
-
-                    <td>Lorum ipsum dolem aire</td>
-                    <td class="level-right"><a class="button is-small is-primary" href="#">Action</a></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a href="#" class="card-footer-item">View All</a>
-            </footer>
-          </div>
-        </div>
-      </div>
-    </div>
+      <section>
+        <Events :events="dashboard.faults"></Events>
+      </section>
+    </section>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import Events from "./Events";
   export default {
     name: "Dashboard",
+    components: {Events},
     computed: {
       ...mapGetters({
         dashboard: "dashboard/getDashboard"
