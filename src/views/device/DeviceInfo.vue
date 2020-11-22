@@ -64,6 +64,8 @@
         device: 'device/getDevice',
       }),
     },
+    mounted() {
+    },
     methods: {
       kick() {
         this.$store.dispatch('device/kickDevice', this.device.uuid)
