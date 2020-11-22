@@ -13,13 +13,16 @@
             aria-previous-label="Previous page"
             aria-page-label="Page"
             aria-current-label="Current page"
-            v-bind="$props"
+            v-bind="Object.assign($attrs, $props)"
             backend-pagination
             backend-filtering
             backend-sorting
             :debounce-search="500"
+            ref="basetable"
     >
       <slot></slot>
+      <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
+
     </b-table>
   </div>
 </template>
@@ -76,9 +79,6 @@ export default {
     }
   },
   computed: {
-    itemSlots() {
-      return Object.keys(this.$scopedSlots).filter(name => name.substr(0, 5) === 'item.');
-    },
     actionData() {
       if(typeof this.action === 'string') {
         return {
@@ -110,7 +110,7 @@ export default {
   //   },
   // },
   mounted() {
-  this.fetchItems()
+    this.fetchItems()
   }
 }
 </script>

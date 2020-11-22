@@ -3,13 +3,38 @@
     <div class="column">
         <PaginatedTable
           action="device/list"
+          :autoload="false"
+          :dense="true"
+          ref="table"
         >
-          <b-table-column field="uuid" label="UUID" v-slot="props">
-            {{ props.row.uuid }}
+          <b-table-column field="uuid" label="UUID" searchable>
+            <template
+                    slot="searchable"
+                    slot-scope="props">
+              <b-input
+                      v-model="props.filters[props.column.field]"
+                      placeholder="Search..."
+                      icon="magnify"
+                      size="is-small" />
+            </template>
+            <template v-slot="props">
+              {{ props.row.uuid }}
+            </template>
           </b-table-column>
 
-          <b-table-column field="serial_number" label="Serial Number" v-slot="props">
-            {{ props.row.serial_number }}
+          <b-table-column field="serial_number" label="Serial Number" searchable>
+            <template
+                    slot="searchable"
+                    slot-scope="props">
+              <b-input
+                      v-model="props.filters[props.column.field]"
+                      placeholder="Search..."
+                      icon="magnify"
+                      size="is-small" />
+            </template>
+            <template v-slot="props">
+              {{ props.row.serial_number }}
+            </template>
           </b-table-column>
 
           <b-table-column field="software_version" label="Software Version" v-slot="props">

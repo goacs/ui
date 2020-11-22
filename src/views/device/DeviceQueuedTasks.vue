@@ -66,7 +66,7 @@
   }
 </script>
 
-<style scoped type="text/sass">
+<style scoped>
   .script-description {
     margin-left: 1em;
     overflow: hidden;

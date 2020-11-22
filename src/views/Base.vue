@@ -20,7 +20,7 @@
             <router-link class="navbar-item" :to="{name: 'devices-list'}">
               Devices
             </router-link>
-            <router-link class="navbar-item" :to="{name: 'devices-list'}">
+            <router-link class="navbar-item" :to="{name: 'template-list'}">
               Templates
             </router-link>
             <router-link class="navbar-item" :to="{name: 'settings'}">

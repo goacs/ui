@@ -24,6 +24,17 @@ const routes = [
         path: 'devices/:uuid',
         name: 'devices-view',
         component: () => import('@/views/device/DeviceView.vue')
+      },
+
+      {
+        path: 'templates',
+        name: 'template-list',
+        component: () => import('@/views/template/TemplateList.vue')
+      },
+      {
+        path: 'templates/:uuid',
+        name: 'template-view',
+        component: () => import('@/views/template/TemplateView.vue')
       }
     ],
     meta: {

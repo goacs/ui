@@ -12,7 +12,11 @@
                 :headers="headers"
                 :autoload="false"
                 :dense="true"
+                detailed
+                detail-key="name"
+                :show-detail-icon="false"
                 ref="table"
+
         >
           <b-table-column field="name" label="Name" searchable>
             <template
@@ -40,22 +44,24 @@
                       size="is-small" />
             </template>
             <template v-slot="props">
-              {{ props.row.value }}
+              <template v-if="props.row.value.length > 100">
+                {{ stripString(props, 100) }}
+                <b-button
+                @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
+                size="is-small"
+                type="is-primary"
+                >
+                  ...
+                </b-button>
+              </template>
+              <template v-else>
+                {{ props.row.value }}
+              </template>
             </template>
           </b-table-column>
 
           <b-table-column field="flag" label="Flag">
-<!--            <template-->
-<!--                    slot="searchable"-->
-<!--                    slot-scope="props">-->
-<!--                <CheckboxSelection-->
-<!--                        v-model="props.filters[props.column.field]"-->
-<!--                        :items="flagSelection"-->
-<!--                        field="name"-->
-<!--                        placeholder="Filter flag"-->
-<!--                        size="is-small">-->
-<!--                </CheckboxSelection>-->
-<!--            </template>-->
+
             <template v-slot="props">
               {{ parseFlag(props.row.flag) }}
             </template>
@@ -75,7 +81,15 @@
               </b-tooltip>
             </section>
           </b-table-column>
-
+          <template slot="detail"  slot-scope="props">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <pre>{{ props.row.value }}</pre>
+                </div>
+              </div>
+            </article>
+          </template>
         </PaginatedTable>
       </div>
     </div>
@@ -206,11 +220,14 @@
         } finally {
           this.saving = false
         }
-      }
+      },
+      stripString(value, len) {
+        return value.row.value.substr(0, len);
+      },
     },
     beforeDestroy() {
       this.$store.commit('device/setParameters', {})
-    }
+    },
   }
 </script>
 

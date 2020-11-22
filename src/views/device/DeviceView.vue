@@ -6,6 +6,7 @@
       </div>
       <div class="column is-half">
         <DeviceQueuedTasks></DeviceQueuedTasks>
+        <DeviceTemplates></DeviceTemplates>
         <DeviceLogs></DeviceLogs>
       </div>
     </div>
@@ -23,9 +24,10 @@ import DeviceInfo from "./DeviceInfo";
 import DeviceParameterList from "./DeviceParameterList";
 import DeviceLogs from "./DeviceLogs";
 import DeviceQueuedTasks from "./DeviceQueuedTasks";
+import DeviceTemplates from "./DeviceTemplates";
 export default {
   name: "DeviceView",
-  components: {DeviceQueuedTasks, DeviceLogs, DeviceParameterList, DeviceInfo},
+  components: {DeviceTemplates, DeviceQueuedTasks, DeviceLogs, DeviceParameterList, DeviceInfo},
   data() {
     return {
 

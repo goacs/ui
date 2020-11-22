@@ -37,14 +37,14 @@
           </div>
           <div class="tile is-parent">
             <article class="tile is-child box">
-              <p class="title">{{ dashboard.exceptions_count  }}</p>
-              <p class="subtitle">Exceptions last 24 hours</p>
+              <p class="title">{{ dashboard.faults_count  }}</p>
+              <p class="subtitle">Faults last 24 hours</p>
             </article>
           </div>
         </div>
       </section>
       <section>
-        <Events :events="dashboard.faults"></Events>
+        <Faults :faults="dashboard.faults"></Faults>
       </section>
     </section>
   </div>
@@ -52,10 +52,10 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import Events from "./Events";
+  import Faults from "./Faults";
   export default {
     name: "Dashboard",
-    components: {Events},
+    components: {Faults},
     computed: {
       ...mapGetters({
         dashboard: "dashboard/getDashboard"

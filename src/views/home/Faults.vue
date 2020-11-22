@@ -2,7 +2,7 @@
   <div class="card events-card">
     <header class="card-header">
       <p class="card-header-title">
-        Events
+        Faults
       </p>
 <!--      <a href="#" class="card-header-icon" aria-label="more options">-->
 <!--                  <span class="icon">-->
@@ -21,13 +21,20 @@
           <th></th>
           </thead>
           <tbody>
-          <tr v-for="fault in events" :key="fault.uuid">
-            <td>{{ fault.code }}</td>
-            <td>{{ fault.message }}</td>
-            <td>{{ fault.created_at }}</td>
-            <td><router-link :to="{ name: 'devices-view', params: {uuid: fault.cpe_uuid}}">{{ fault.cpe_uuid }}</router-link></td>
-            <td class="level-right"><a class="button is-small is-primary" href="#">Details</a></td>
-          </tr>
+            <template v-if="faults.length === 0">
+              <tr>
+                <td colspan="5" class="has-text-centered">Nothing to display</td>
+              </tr>
+            </template>
+            <template v-else>
+              <tr v-for="fault in faults" :key="fault.uuid">
+                <td>{{ fault.code }}</td>
+                <td>{{ fault.message }}</td>
+                <td>{{ fault.created_at }}</td>
+                <td><router-link :to="{ name: 'devices-view', params: {uuid: fault.cpe_uuid}}">{{ fault.cpe_uuid }}</router-link></td>
+                <td class="level-right"><a class="button is-small is-primary" href="#">Details</a></td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
@@ -40,9 +47,9 @@
 
 <script>
   export default {
-    name: "Events",
+    name: "Faults",
     props: {
-      events: {
+      faults: {
         type: Array,
         default: () => [],
       },
