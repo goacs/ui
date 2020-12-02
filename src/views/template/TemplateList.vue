@@ -3,13 +3,20 @@
     <div class="column">
       <PaginatedTable
               action="template/list"
+              :autoload="false"
+              :dense="true"
+              ref="table"
       >
-        <b-table-column field="uuid" label="UUID" v-slot="props">
-          {{ props.row.uuid }}
+        <b-table-column field="uuid" label="ID" v-slot="props">
+          {{ props.row.id }}
         </b-table-column>
 
         <b-table-column field="name" label="Name" v-slot="props">
           {{ props.row.name }}
+        </b-table-column>
+
+        <b-table-column field="parameter_count" label="Parameter count" v-slot="props">
+          {{ props.row.parameter_count }}
         </b-table-column>
 
         <b-table-column field="actions" label="Actions" v-slot="props">
@@ -23,8 +30,10 @@
 </template>
 
 <script>
+  import PaginatedTable from "../../components/PaginatedTable";
   export default {
-    name: "TemplateList"
+    name: "TemplateList",
+    components: {PaginatedTable}
   }
 </script>
 
