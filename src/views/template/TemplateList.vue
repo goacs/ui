@@ -20,7 +20,7 @@
         </b-table-column>
 
         <b-table-column field="actions" label="Actions" v-slot="props">
-          <b-button tag="router-link" type="is-primary" :to="{ name: 'devices-view', params: { uuid: props.row.uuid } }">
+          <b-button tag="router-link" type="is-primary" :to="{ name: 'template-view', params: { id: props.row.id } }">
             <b-icon icon="magnify"></b-icon>
           </b-button>
         </b-table-column>

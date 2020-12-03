@@ -32,7 +32,7 @@ const routes = [
         component: () => import('@/views/template/TemplateList.vue')
       },
       {
-        path: 'templates/:uuid',
+        path: 'templates/:id',
         name: 'template-view',
         component: () => import('@/views/template/TemplateView.vue')
       }
