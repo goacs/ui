@@ -35,6 +35,11 @@ const routes = [
         path: 'templates/:id',
         name: 'template-view',
         component: () => import('@/views/template/TemplateView.vue')
+      },
+      {
+        path: 'file',
+        name: 'file-list',
+        component: () => import('@/views/files/FileList.vue')
       }
     ],
     meta: {

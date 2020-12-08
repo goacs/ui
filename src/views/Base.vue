@@ -23,6 +23,9 @@
             <router-link class="navbar-item" :to="{name: 'template-list'}">
               Templates
             </router-link>
+            <router-link class="navbar-item" :to="{name: 'file-list'}">
+              Files
+            </router-link>
             <router-link class="navbar-item" :to="{name: 'settings'}">
               Settings
             </router-link>

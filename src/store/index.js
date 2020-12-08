@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import device from './device'
 import dashboard from './dashboard'
 import template from './template'
+import file from './file'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
     device,
     dashboard,
     template,
+    file,
   }
 })
 
