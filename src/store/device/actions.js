@@ -55,6 +55,14 @@ export default {
     } catch (e) {
       console.log('cannot fetch queued tasks', e)
     }
-
+  },
+  async fetchDeviceTemplates({ commit }, uuid) {
+    try {
+      const response = await this._vm.$http.get(`/device/${uuid}/templates`)
+      commit('setDeviceTemplates', response.data.data)
+      return response
+    } catch (e) {
+      console.log('cannot fetch device templates', e)
+    }
   }
 }

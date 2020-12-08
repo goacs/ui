@@ -36,6 +36,8 @@
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">Edit template</p>
+            <b-button type="is-danger" outlined icon-left="delete" ></b-button>
+
           </header>
           <section class="modal-card-body">
             <b-field :label="`Editing item ${editedItem.name}`">
@@ -50,8 +52,8 @@
             </b-field>
           </section>
           <footer class="modal-card-foot">
-            <b-button type="button" @click="dialog = false">Close</b-button>
-            <b-button class="is-primary" @click="save" :loading="saving">Save</b-button>
+            <b-button @click="dialog = false">Close</b-button>
+            <b-button type="is-primary" class="is-align-content-end" @click="save" :loading="saving">Save</b-button>
           </footer>
         </div>
       </form>
@@ -60,6 +62,8 @@
 </template>
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     name: "DeviceTemplates",
     components: {
@@ -69,29 +73,13 @@
         dialog: false,
         saving: false,
         editedItem: {},
-        templates: [
-          {
-            id: 1,
-            priority: 10,
-            name: 'First',
-          },
-          {
-            id: 2,
-            priority: 20,
-            name: 'Second',
-          },
-          {
-            id: 3,
-            priority: 30,
-            name: 'Third',
-          },
-          {
-            id: 4,
-            priority: 50,
-            name: 'Fourth',
-          },
-        ],
       };
+    },
+    computed:{
+      ...mapGetters({
+        device: 'device/getDevice',
+        templates: 'device/getDeviceTemplates'
+      }),
     },
     methods: {
       editTemplate(template) {
@@ -101,6 +89,9 @@
       save() {
 
       }
+    },
+    mounted() {
+      this.$store.dispatch('device/fetchDeviceTemplates', this.device.uuid)
     }
   }
 </script>

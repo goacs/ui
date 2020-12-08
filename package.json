@@ -11,7 +11,7 @@
     "@d0whc3r/vue-auth-plugin": "^1.8.2",
     "autoprefixer": "^9.8",
     "axios": "^0.19.2",
-    "buefy": "^0.9.3",
+    "buefy": "^0.9",
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
     "postcss-import": "^12.0.1",
