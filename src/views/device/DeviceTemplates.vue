@@ -5,7 +5,7 @@
         Device templates
       </p>
       <div class="card-header-icon" aria-label="more options">
-        <b-button size="is-small">
+        <b-button size="is-small" @click="addTemplate">
           <b-icon
                   icon="plus"
                   size="is-small"
@@ -29,49 +29,26 @@
         Higher is better. Device has priority 100
       </span>
     </div>
-    <b-modal
-            v-model="dialog"
-    >
-      <form>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Edit template</p>
-            <b-button type="is-danger" outlined icon-left="delete" ></b-button>
-
-          </header>
-          <section class="modal-card-body">
-            <b-field :label="`Editing item ${editedItem.name}`">
-
-            </b-field>
-            <b-field label="Priority" label-position="on-border">
-              <b-input
-                      type="text"
-                      v-model="editedItem.priority"
-                      placeholder="Priority">
-              </b-input>
-            </b-field>
-          </section>
-          <footer class="modal-card-foot">
-            <b-button @click="dialog = false">Close</b-button>
-            <b-button type="is-primary" class="is-align-content-end" @click="save" :loading="saving">Save</b-button>
-          </footer>
-        </div>
-      </form>
-    </b-modal>
+    <AddDialog v-model="addDialog"></AddDialog>
+    <EditDialog v-model="editDialog" :item="editedItem"></EditDialog>
   </div>
 </template>
 
 <script>
   import {mapGetters} from "vuex";
+  import EditDialog from "./template/EditDialog";
+  import AddDialog from "./template/AddDialog";
 
   export default {
     name: "DeviceTemplates",
     components: {
+      AddDialog,
+      EditDialog
     },
     data() {
       return {
-        dialog: false,
-        saving: false,
+        addDialog: false,
+        editDialog: false,
         editedItem: {},
       };
     },
@@ -82,13 +59,15 @@
       }),
     },
     methods: {
+      addTemplate() {
+        console.log("add templ")
+        this.addDialog = true;
+      },
       editTemplate(template) {
         this.editedItem = Object.assign({}, template); //clone item, not reference
-        this.dialog = true;
+        this.editDialog = true;
       },
-      save() {
 
-      }
     },
     mounted() {
       this.$store.dispatch('device/fetchDeviceTemplates', this.device.uuid)

@@ -64,5 +64,14 @@ export default {
     } catch (e) {
       console.log('cannot fetch device templates', e)
     }
-  }
+  },
+  async assignTemplate(context, params) {
+    return await this._vm.$http.post(`/device/${params.cpe_uuid}/templates`, {
+      template_id: params.template_id,
+      priority: params.priority,
+    })
+  },
+  async unAssignTemplate(context, params) {
+    return await this._vm.$http.delete(`/device/${params.cpe_uuid}/templates/${params.template_id}`)
+  },
 }

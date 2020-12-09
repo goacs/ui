@@ -18,7 +18,7 @@ Vue.use(Buefy)
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'http://localhost:8085/api'
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
 axios.defaults.headers['Authorization'] = 'Bearer {auth_token}'
 
 Vue.use(VueAxios, axios)

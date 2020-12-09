@@ -6,8 +6,10 @@
 
 export default {
   name: 'App',
-
-  data: () => ({
+    mounted() {
+      console.log(process.env)
+    },
+    data: () => ({
     //
   }),
 };

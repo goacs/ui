@@ -19,8 +19,8 @@
         </b-table-column>
 
         <b-table-column field="actions" label="Actions" v-slot="props">
-            <b-button tag="router-link" type="is-primary" :to="{ name: 'template-view', params: { id: props.row.id } }">
-                <b-icon icon="magnify"></b-icon>
+            <b-button tag="a" type="is-primary" :href="generateFileUri(props.row.filename)">
+                <b-icon icon="download"></b-icon>
             </b-button>
         </b-table-column>
     </PaginatedTable>
@@ -30,7 +30,12 @@
     import PaginatedTable from "../../components/PaginatedTable";
     export default {
         name: "FileList",
-        components: {PaginatedTable}
+        components: {PaginatedTable},
+        methods: {
+            generateFileUri(filename) {
+                return `${process.env.VUE_APP_API_URL}../file/${filename}`
+            }
+        }
     }
 </script>
 
