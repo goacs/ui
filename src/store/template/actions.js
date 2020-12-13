@@ -23,6 +23,20 @@ export default {
     } catch (e) {
       console.error("Cannot fetch template parameters")
     }
-
+  },
+  async storeParameter(context, parameters) {
+    return await this._vm.$http.post(`/template/${parameters.templateId}/parameters`, {
+      name: parameters.name,
+      value: parameters.value
+    })
+  },
+  async updateParameter(context, parameters) {
+    return await this._vm.$http.post(`/template/${parameters.templateId}/parameters/${parameters.uuid}`, {
+      name: parameters.name,
+      value: parameters.value
+    })
+  },
+  async deleteParameter(context, parameters) {
+    return await this._vm.$http.delete(`/template/${parameters.templateId}/parameters/${parameters.uuid}`)
   }
 }

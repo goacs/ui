@@ -4,6 +4,20 @@
       <p class="card-header-title">
         Parameters
       </p>
+      <div class="card-header-icon" aria-label="more options">
+        <b-button
+                size="is-small"
+                @click="addItem"
+        >
+          <b-icon
+                  icon="plus"
+                  size="is-small"
+          >
+
+          </b-icon>
+          New
+        </b-button>
+      </div>
     </header>
     <div class="card-content">
       <div>
@@ -69,11 +83,6 @@
 
           <b-table-column field="actions" label="Actions" v-slot="props">
             <section class="b-tooltips">
-              <b-tooltip label="New instance" type="is-dark" v-if="props.row.flag.add_object === true">
-                <b-button type="is-primary" size='is-small' @click="addObject(props.row)">
-                  <b-icon icon="plus" size="is-small"></b-icon>
-                </b-button>
-              </b-tooltip>
               <b-tooltip label="Edit parameter" type="is-dark">
               <b-button type="is-primary" size='is-small' @click="editItem(props.row)">
                 <b-icon icon="pencil" size="is-small"></b-icon>
@@ -93,31 +102,8 @@
         </PaginatedTable>
       </div>
     </div>
-    <b-modal
-          v-model="dialog"
-    >
-    <form>
-      <div class="modal-card" style="width: auto">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Edit parameter</p>
-        </header>
-        <section class="modal-card-body">
-          <b-field :label="editedItem.name">
-            <b-input
-                    :disabled="editedItem.flag && editedItem.flag.write === false"
-                    type="text"
-                    v-model="editedItem.value"
-                    placeholder="Item Value">
-            </b-input>
-          </b-field>
-        </section>
-        <footer class="modal-card-foot">
-          <b-button type="button" @click="dialog = false">Close</b-button>
-          <b-button class="is-primary" @click="save" :loading="saving">Save</b-button>
-        </footer>
-      </div>
-    </form>
-    </b-modal>
+    <ParameterDialog v-model="addDialog" :item="addingItem" @onSave="storeParameter"></ParameterDialog>
+    <ParameterDialog v-model="editDialog" :item="editedItem" :isNew="false" @onSave="updateParameter" @onDelete="deleteParameter"></ParameterDialog>
   </div>
 </template>
 
@@ -125,9 +111,10 @@
   import PaginatedTable from "../../components/PaginatedTable";
   import {mapGetters} from "vuex";
   import {FlagParser} from "../../helpers/FlagParser";
+  import ParameterDialog from "../../components/ParameterDialog";
   export default {
     name: "TemplateParameterList",
-    components: { PaginatedTable },
+    components: {ParameterDialog, PaginatedTable },
     data() {
       return {
         headers: [
@@ -169,7 +156,12 @@
             templateId: this.$route.params.id
           }
         },
-        dialog: false,
+        addDialog: false,
+        addingItem: {
+          name: "",
+          value: "",
+        },
+        editDialog: false,
         editedItem: {},
         editedIndex: -1,
         saving: false,
@@ -186,32 +178,73 @@
         const parser = new FlagParser(flag)
         return parser.toString()
       },
-      saveParameter(params) {
-        console.log(params)
+      addItem() {
+        this.addDialog = true
+        this.addingItem.template_id = this.$route.params.id
       },
       editItem(item) {
         this.editedIndex = this.$refs.table.items
         this.editedItem = item
-        this.dialog = true
+        this.editDialog = true
       },
-      save() {
-        this.saving = true
+      async storeParameter(savedItem) {
+        console.log(savedItem)
         try {
-          // this.$store.dispatch('device/updateParameters', {
-          //   uuid: this.device.uuid,
-          //   name: this.editedItem.name,
-          //   value: this.editedItem.value,
-          // })
-          this.dialog = false
+          await this.$store.dispatch('template/storeParameter', {
+            templateId: savedItem.template_id,
+            name: savedItem.name,
+            value: savedItem.value,
+          })
+          await this.$refs.table.fetchItems()
         } catch (e) {
           this.$buefy.toast.open({
             duration: 5000,
-            message: `Error. Cannot save parameter`,
+            message: `Cannot save parameter: ${e.response.data.data}`,
             position: 'is-bottom',
             type: 'is-danger'
           })
         } finally {
-          this.saving = false
+          this.addDialog = false
+        }
+      },
+      async updateParameter(savedItem) {
+        try {
+          await this.$store.dispatch('template/updateParameter', {
+            uuid: savedItem.uuid,
+            templateId: savedItem.template_id,
+            name: savedItem.name,
+            value: savedItem.value,
+          })
+          await this.$refs.table.fetchItems()
+        } catch (e) {
+          console.log(e)
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Cannot save parameter: ${e.response.data.data}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        } finally {
+          this.editDialog = false
+        }
+      },
+      async deleteParameter(savedItem) {
+        try {
+          await this.$store.dispatch('template/deleteParameter', {
+            uuid: savedItem.uuid,
+            templateId: savedItem.template_id,
+          })
+          await this.$refs.table.fetchItems()
+        } catch (e) {
+          console.log(e)
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Error. Cannot delete parameter: ${e.response.data.data}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        } finally {
+          this.editDialog = false
         }
       },
       stripString(value, len) {
