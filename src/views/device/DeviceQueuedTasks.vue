@@ -14,6 +14,7 @@
           >
 
           </b-icon>
+          Add
         </b-button>
 
       </div>

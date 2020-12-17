@@ -10,6 +10,7 @@
                   icon="plus"
                   size="is-small"
           ></b-icon>
+          Assign
         </b-button>
       </div>
     </header>

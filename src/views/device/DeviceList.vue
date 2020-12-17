@@ -1,6 +1,26 @@
 <template>
   <div class="columns">
     <div class="column">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Devices
+          </p>
+          <div class="card-header-icon" aria-label="more options">
+            <b-button
+                    size="is-small"
+            >
+              <b-icon
+                      icon="plus"
+                      size="is-small"
+              >
+
+              </b-icon>
+              New
+            </b-button>
+          </div>
+        </header>
+        <div class="card-content">
         <PaginatedTable
           action="device/list"
           :autoload="false"
@@ -51,6 +71,8 @@
             </b-button>
           </b-table-column>
         </PaginatedTable>
+        </div>
+      </div>
     </div>
   </div>
 </template>

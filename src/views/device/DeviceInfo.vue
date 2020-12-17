@@ -4,6 +4,20 @@
       <p class="card-header-title">
         Device Info
       </p>
+      <div class="card-header-icon" aria-label="more options">
+        <b-button
+                type="is-danger"
+                size="is-small"
+        >
+          <b-icon
+                  icon="delete"
+                  size="is-small"
+          >
+
+          </b-icon>
+          Delete
+        </b-button>
+      </div>
     </header>
     <div class="card-content">
       <table class="table is-fullwidth is-striped">
@@ -38,16 +52,21 @@
         </tr>
         </tbody>
       </table>
-      <div>
+      <div class="buttons">
         <b-button
         @click="kick"
         >
-          Kick
+          Device Request
         </b-button>
         <b-button
                 @click="getParameterValues"
         >
-          GetParameterValues
+          Lookup parameters
+        </b-button>
+        <b-button
+                @click="getParameterValues"
+        >
+          Send parameters
         </b-button>
       </div>
     </div>
@@ -67,6 +86,9 @@
     mounted() {
     },
     methods: {
+      delete() {
+
+      },
       kick() {
         this.$store.dispatch('device/kickDevice', this.device.uuid)
       },
