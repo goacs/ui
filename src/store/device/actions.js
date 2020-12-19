@@ -24,11 +24,23 @@ export default {
       console.error("Cannot fetch device parameters")
     }
   },
+  async storeParameter(context, data) {
+    try {
+      return await this._vm.$http.post(`/device/${data.uuid}/parameters`, {
+        name: data.name,
+        value: data.value,
+        flags: data.flags,
+      })
+    } catch (e) {
+      console.error("cannot update parameters", e)
+    }
+  },
   async updateParameters(context, data) {
     try {
       return await this._vm.$http.put(`/device/${data.uuid}/parameters`, {
         name: data.name,
-        value: data.value
+        value: data.value,
+        flags: data.flags,
       })
     } catch (e) {
       console.error("cannot update parameters", e)

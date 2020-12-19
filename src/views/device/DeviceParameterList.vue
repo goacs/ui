@@ -4,6 +4,21 @@
       <p class="card-header-title">
         Parameters
       </p>
+      <div class="card-header-icon" aria-label="more options">
+        <b-button
+                size="is-small"
+                @click="addDialog = true"
+        >
+          <b-icon
+                  icon="plus"
+                  size="is-small"
+          >
+
+          </b-icon>
+          Add
+        </b-button>
+
+      </div>
     </header>
     <div class="card-content">
       <div>
@@ -93,31 +108,8 @@
         </PaginatedTable>
       </div>
     </div>
-    <b-modal
-          v-model="dialog"
-    >
-    <form>
-      <div class="modal-card" style="width: auto">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Edit parameter</p>
-        </header>
-        <section class="modal-card-body">
-          <b-field :label="editedItem.name">
-            <b-input
-                    :disabled="editedItem.flag && editedItem.flag.write === false"
-                    type="text"
-                    v-model="editedItem.value"
-                    placeholder="Item Value">
-            </b-input>
-          </b-field>
-        </section>
-        <footer class="modal-card-foot">
-          <b-button type="button" @click="dialog = false">Close</b-button>
-          <b-button class="is-primary" @click="save" :loading="saving">Save</b-button>
-        </footer>
-      </div>
-    </form>
-    </b-modal>
+    <ParameterDialog v-model="addDialog" :item="addingItem" :isNew="false" @onSave="storeParameter"></ParameterDialog>
+    <ParameterDialog v-model="editDialog" :item="editedItem" :isNew="false" @onSave="updateParameter"></ParameterDialog>
   </div>
 </template>
 
@@ -125,9 +117,10 @@
   import PaginatedTable from "../../components/PaginatedTable";
   import {mapGetters} from "vuex";
   import {FlagParser} from "../../helpers/FlagParser";
+  import ParameterDialog from "../../components/ParameterDialog";
   export default {
     name: "DeviceParameterList",
-    components: { PaginatedTable },
+    components: {ParameterDialog, PaginatedTable },
     data() {
       return {
         headers: [
@@ -169,7 +162,12 @@
             uuid: this.$route.params.uuid
           }
         },
-        dialog: false,
+        addDialog: false,
+        addingItem: {
+          name: "",
+          value: "",
+        },
+        editDialog: false,
         editedItem: {},
         editedIndex: -1,
         saving: false,
@@ -199,26 +197,47 @@
       editItem(item) {
         this.editedIndex = this.$refs.table.items
         this.editedItem = item
-        this.dialog = true
+        this.editDialog = true
       },
-      save() {
-        this.saving = true
+      async storeParameter(item) {
         try {
-          this.$store.dispatch('device/updateParameters', {
+          await this.$store.dispatch('device/storeParameter', {
             uuid: this.device.uuid,
-            name: this.editedItem.name,
-            value: this.editedItem.value,
+            name: item.name,
+            value: item.value,
+            flags: item.flags,
           })
-          this.dialog = false
+          await this.$refs.table.fetchItems()
         } catch (e) {
           this.$buefy.toast.open({
             duration: 5000,
-            message: `Error. Cannot save parameter`,
+            message: `Cannot save parameter: ${e.response.data.data}`,
             position: 'is-bottom',
             type: 'is-danger'
           })
         } finally {
-          this.saving = false
+          this.addDialog = false
+        }
+      },
+      async updateParameter(item) {
+        try {
+          await this.$store.dispatch('device/updateParameters', {
+            uuid: this.device.uuid,
+            name: item.name,
+            value: item.value,
+            flags: item.flags,
+          })
+          await this.$refs.table.fetchItems()
+        } catch (e) {
+          console.log(e)
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Cannot save parameter: ${e.response.data.data}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        } finally {
+          this.editDialog = false
         }
       },
       stripString(value, len) {

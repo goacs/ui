@@ -35,6 +35,9 @@
                     placeholder="Value">
             </b-input>
           </b-field>
+          <b-field label="Flags">
+            <FlagInput></FlagInput>
+          </b-field>
         </section>
         <footer class="modal-card-foot">
           <b-button @click="$emit('input', false)">Close</b-button>
@@ -46,8 +49,10 @@
 </template>
 
 <script>
+  import FlagInput from "./FlagInput";
   export default {
     name: "ParameterDialog",
+    components: {FlagInput},
     data() {
       return {
         saving: false,
