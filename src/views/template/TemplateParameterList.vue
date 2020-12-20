@@ -102,8 +102,8 @@
         </PaginatedTable>
       </div>
     </div>
-    <ParameterDialog v-model="addDialog" :item="addingItem" @onSave="storeParameter"></ParameterDialog>
-    <ParameterDialog v-model="editDialog" :item="editedItem" :isNew="false" @onSave="updateParameter" @onDelete="deleteParameter"></ParameterDialog>
+    <ParameterDialog v-model="addDialog" :item="addingItem" is-new @onSave="storeParameter"></ParameterDialog>
+    <ParameterDialog v-model="editDialog" :item="editedItem" @onSave="updateParameter" @onDelete="deleteParameter"></ParameterDialog>
   </div>
 </template>
 
@@ -180,21 +180,19 @@
       },
       addItem() {
         this.addDialog = true
-        this.addingItem.template_id = this.$route.params.id
+        this.addingItem.templateId = this.$route.params.id
       },
       editItem(item) {
         this.editedIndex = this.$refs.table.items
         this.editedItem = item
+        this.editedItem.templateId = this.$route.params.id
         this.editDialog = true
       },
       async storeParameter(savedItem) {
         console.log(savedItem)
         try {
-          await this.$store.dispatch('template/storeParameter', {
-            templateId: savedItem.template_id,
-            name: savedItem.name,
-            value: savedItem.value,
-          })
+          await this.$store.dispatch('template/storeParameter', savedItem)
+          this.addDialog = false
           await this.$refs.table.fetchItems()
         } catch (e) {
           this.$buefy.toast.open({
@@ -203,18 +201,14 @@
             position: 'is-bottom',
             type: 'is-danger'
           })
-        } finally {
-          this.addDialog = false
         }
       },
       async updateParameter(savedItem) {
+        console.log(savedItem)
+
         try {
-          await this.$store.dispatch('template/updateParameter', {
-            uuid: savedItem.uuid,
-            templateId: savedItem.template_id,
-            name: savedItem.name,
-            value: savedItem.value,
-          })
+          await this.$store.dispatch('template/updateParameter', savedItem)
+          this.editDialog = false
           await this.$refs.table.fetchItems()
         } catch (e) {
           console.log(e)
@@ -224,8 +218,6 @@
             position: 'is-bottom',
             type: 'is-danger'
           })
-        } finally {
-          this.editDialog = false
         }
       },
       async deleteParameter(savedItem) {
@@ -234,6 +226,7 @@
             uuid: savedItem.uuid,
             templateId: savedItem.template_id,
           })
+          this.editDialog = false
           await this.$refs.table.fetchItems()
         } catch (e) {
           console.log(e)
@@ -243,8 +236,6 @@
             position: 'is-bottom',
             type: 'is-danger'
           })
-        } finally {
-          this.editDialog = false
         }
       },
       stripString(value, len) {

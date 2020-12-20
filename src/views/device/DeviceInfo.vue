@@ -8,6 +8,7 @@
         <b-button
                 type="is-danger"
                 size="is-small"
+                @click="deleteDevice"
         >
           <b-icon
                   icon="delete"
@@ -56,17 +57,12 @@
         <b-button
         @click="kick"
         >
-          Device Request
+          Provision
         </b-button>
         <b-button
                 @click="getParameterValues"
         >
           Lookup parameters
-        </b-button>
-        <b-button
-                @click="getParameterValues"
-        >
-          Send parameters
         </b-button>
       </div>
     </div>
@@ -86,8 +82,9 @@
     mounted() {
     },
     methods: {
-      delete() {
-
+      async deleteDevice() {
+        await this.$store.dispatch('device/deleteDevice', this.device.uuid)
+        await this.$router.push({ name: 'devices-list'})
       },
       kick() {
         this.$store.dispatch('device/kickDevice', this.device.uuid)

@@ -24,16 +24,23 @@ export default {
       console.error("Cannot fetch template parameters")
     }
   },
+  async addTemplate(context, params) {
+    return await this._vm.$http.post(`/template`, {
+      name: params.name,
+    })
+  },
   async storeParameter(context, parameters) {
     return await this._vm.$http.post(`/template/${parameters.templateId}/parameters`, {
       name: parameters.name,
-      value: parameters.value
+      value: parameters.value,
+      flag: parameters.flag,
     })
   },
   async updateParameter(context, parameters) {
     return await this._vm.$http.post(`/template/${parameters.templateId}/parameters/${parameters.uuid}`, {
       name: parameters.name,
-      value: parameters.value
+      value: parameters.value,
+      flag: parameters.flag,
     })
   },
   async deleteParameter(context, parameters) {

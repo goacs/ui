@@ -108,8 +108,8 @@
         </PaginatedTable>
       </div>
     </div>
-    <ParameterDialog v-model="addDialog" :item="addingItem" :isNew="false" @onSave="storeParameter"></ParameterDialog>
-    <ParameterDialog v-model="editDialog" :item="editedItem" :isNew="false" @onSave="updateParameter"></ParameterDialog>
+    <ParameterDialog v-model="addDialog" :item="addingItem" @onSave="storeParameter"></ParameterDialog>
+    <ParameterDialog v-model="editDialog" :item="editedItem" :isNew="false" @onSave="updateParameter" @onDelete="deleteParameter"></ParameterDialog>
   </div>
 </template>
 
@@ -166,6 +166,7 @@
         addingItem: {
           name: "",
           value: "",
+          flags: "",
         },
         editDialog: false,
         editedItem: {},
@@ -207,16 +208,20 @@
             value: item.value,
             flags: item.flags,
           })
+          this.addDialog = false
           await this.$refs.table.fetchItems()
         } catch (e) {
           this.$buefy.toast.open({
             duration: 5000,
-            message: `Cannot save parameter: ${e.response.data.data}`,
+            message: `Cannot save parameter: ${e.response.data.message}`,
             position: 'is-bottom',
             type: 'is-danger'
           })
-        } finally {
-          this.addDialog = false
+        }
+        this.addingItem = {
+          name: "",
+          value: "",
+          flag: "",
         }
       },
       async updateParameter(item) {
@@ -225,19 +230,36 @@
             uuid: this.device.uuid,
             name: item.name,
             value: item.value,
-            flags: item.flags,
+            flag: item.flag,
           })
+          this.editDialog = false
           await this.$refs.table.fetchItems()
         } catch (e) {
           console.log(e)
           this.$buefy.toast.open({
             duration: 5000,
-            message: `Cannot save parameter: ${e.response.data.data}`,
+            message: `Cannot save parameter: ${e.response.data.message}`,
             position: 'is-bottom',
             type: 'is-danger'
           })
-        } finally {
+        }
+      },
+      async deleteParameter(item) {
+        try {
+          await this.$store.dispatch('device/deleteParameter', {
+            uuid: this.device.uuid,
+            name: item.name,
+          })
           this.editDialog = false
+          await this.$refs.table.fetchItems()
+        } catch (e) {
+          console.log(e)
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Cannot delete parameter: ${e.response.data.message}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
         }
       },
       stripString(value, len) {

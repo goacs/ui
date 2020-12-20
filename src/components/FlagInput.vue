@@ -16,8 +16,8 @@
     name: "FlagInput",
     props: {
       value: {
-        type: String,
-        requied: true,
+        type: Object,
+        required: true,
       },
     },
     data() {
@@ -25,36 +25,61 @@
         selectedFlags: [],
         flags: [
           {
-            value: 'R',
+            value: 'read',
             name: 'Read'
           },
           {
-            value: 'W',
+            value: 'write',
             name: 'Write'
           },
           {
-            value: 'A',
+            value: 'send',
+            name: 'Send'
+          },
+          {
+            value: 'add_object',
             name: 'Add Object'
-          }
+          },
+          {
+            value: 'system',
+            name: 'System'
+          },
+          {
+            value: 'periodic_read',
+            name: 'Periodic Read'
+          },
+          {
+            value: 'important',
+            name: 'Important'
+          },
         ]
+      }
+    },
+    mounted() {
+      this.initializeFlag()
+    },
+    methods: {
+      initializeFlag() {
+        if(!this.value) {
+          return
+        }
+
+        const initialFlags = this.value
+        this.flags.forEach(flag => {
+          if(initialFlags[flag.value] === true) {
+            this.selectedFlags.push(flag)
+          }
+        })
       }
     },
     watch: {
       selectedFlags(val) {
-        const flagString = val.map(flag => flag.value).join('')
-        console.log(flagString)
-        this.$emit('input', flagString)
-      },
-      value(val) {
-        const initialFlags = val.split('')
-        initialFlags.forEach(initialFlag => {
-          this.flags.forEach(flag => {
-            if (flag.value === initialFlag) {
-              this.selectedFlags.push(flag)
-            }
-          })
+        const flagsObject = {}
+        val.forEach(item => {
+          flagsObject[item.value] = true
         })
-      }
+        this.$emit('input', flagsObject)
+      },
     }
   }
 </script>

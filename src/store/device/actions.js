@@ -25,26 +25,25 @@ export default {
     }
   },
   async storeParameter(context, data) {
-    try {
-      return await this._vm.$http.post(`/device/${data.uuid}/parameters`, {
-        name: data.name,
-        value: data.value,
-        flags: data.flags,
-      })
-    } catch (e) {
-      console.error("cannot update parameters", e)
-    }
+    return await this._vm.$http.post(`/device/${data.uuid}/parameters`, {
+      name: data.name,
+      value: data.value,
+      flag: data.flag,
+    })
   },
   async updateParameters(context, data) {
-    try {
-      return await this._vm.$http.put(`/device/${data.uuid}/parameters`, {
+    return await this._vm.$http.put(`/device/${data.uuid}/parameters`, {
+      name: data.name,
+      value: data.value,
+      flag: data.flag,
+    })
+  },
+  async deleteParameter(context, data) {
+    return await this._vm.$http.delete(`/device/${data.uuid}/parameters`, {
+      data: {
         name: data.name,
-        value: data.value,
-        flags: data.flags,
-      })
-    } catch (e) {
-      console.error("cannot update parameters", e)
-    }
+      },
+    })
   },
   async kickDevice(context, uuid) {
     return await this._vm.$http.get(`/device/${uuid}/kick`)
@@ -89,4 +88,8 @@ export default {
   async unAssignTemplate(context, params) {
     return await this._vm.$http.delete(`/device/${params.cpe_uuid}/templates/${params.template_id}`)
   },
+
+  async addTask(context, params) {
+    return await this._vm.$http.post(`/device/${params.cpe_uuid}/tasks`, params)
+  }
 }

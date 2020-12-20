@@ -9,6 +9,7 @@
           <div class="card-header-icon" aria-label="more options">
             <b-button
                     size="is-small"
+                    @click="addDialog = true"
             >
               <b-icon
                       icon="plus"
@@ -48,14 +49,37 @@
         </div>
       </div>
     </div>
+    <TemplateDialog is-new v-model="addDialog" @onSave="save"></TemplateDialog>
   </div>
 </template>
 
 <script>
   import PaginatedTable from "../../components/PaginatedTable";
+  import TemplateDialog from "./TemplateDialog";
   export default {
     name: "TemplateList",
-    components: {PaginatedTable}
+    components: {TemplateDialog, PaginatedTable},
+    data() {
+      return {
+        addDialog: false
+      };
+    },
+    methods: {
+      save(template) {
+        try {
+          this.$store.dispatch('template/addTemplate', template)
+          this.addDialog = false;
+        } catch (e) {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Error. Cannot add template: ${e.response.data.message}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        }
+        this.$refs.table.fetchItems()
+      }
+    }
   }
 </script>
 

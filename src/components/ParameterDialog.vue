@@ -9,14 +9,16 @@
           <div class="card-header-icon" aria-label="more options" v-if="isNew === false">
             <b-button
                     size="is-small"
+                    type="is-danger"
                     @click="$emit('onDelete', item)"
             >
               <b-icon
-                      type="is-danger"
+                      size="is-small"
                       icon="trash-can-outline"
               >
 
               </b-icon>
+              Delete
             </b-button>
           </div>
         </header>
@@ -24,19 +26,19 @@
           <b-field label="Name" label-position="on-border">
             <b-input
                     type="text"
-                    v-model.number="item.name"
+                    v-model="item.name"
                     placeholder="Name">
             </b-input>
           </b-field>
           <b-field label="Value" label-position="on-border">
             <b-input
                     type="text"
-                    v-model.number="item.value"
+                    v-model="item.value"
                     placeholder="Value">
             </b-input>
           </b-field>
           <b-field label="Flags">
-            <FlagInput></FlagInput>
+            <FlagInput v-model="item.flag"></FlagInput>
           </b-field>
         </section>
         <footer class="modal-card-foot">
@@ -69,7 +71,7 @@
       },
       isNew: {
         type: Boolean,
-        default: () => true
+        default: () => false,
       }
     },
     computed: {
