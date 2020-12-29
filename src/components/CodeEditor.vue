@@ -1,0 +1,61 @@
+<template>
+  <prism-editor
+          class="my-editor height-300 textarea"
+          v-model="code"
+          :highlight="highlighter"
+          :line-numbers="lineNumbers"
+  ></prism-editor>
+</template>
+
+<script>
+  import { PrismEditor } from "vue-prism-editor";
+  import "vue-prism-editor/dist/prismeditor.min.css";
+  import { highlight, languages } from "prismjs/components/prism-core";
+  import "prismjs/components/prism-clike";
+  import "prismjs/components/prism-go";
+  import "prismjs/themes/prism.css";
+
+  export default {
+    name: "CodeEditor",
+    components: {
+      PrismEditor
+    },
+    params: {
+      value: {
+        type: String,
+        required: true,
+      },
+    },
+    data: () => ({
+      code: '',
+      lineNumbers: true
+    }),
+    methods: {
+      highlighter(code) {
+        return highlight(code, languages.go);
+      }
+    },
+    mounted() {
+      this.code = this.value;
+    },
+    watch: {
+      code(val) {
+        this.$emit('input', val);
+      },
+    },
+  }
+</script>
+
+<style scoped>
+.my-editor {
+  background: #f5f2f0;
+  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 5px;
+}
+
+.height-300 {
+  height: 300px;
+}
+</style>

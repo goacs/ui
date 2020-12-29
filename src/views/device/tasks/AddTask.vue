@@ -43,8 +43,8 @@
             </b-select>
           </b-field>
           <b-field v-if="task.task === 'RunScript'" label="Script">
-            <b-input type="textarea" v-model="task.script"></b-input>
-
+            <CodeEditor v-model="task.script"></CodeEditor>
+<!--            <b-input type="textarea" v-model="task.script"></b-input>-->
           </b-field>
         </section>
         <footer class="modal-card-foot">
@@ -57,8 +57,10 @@
 </template>
 
 <script>
+  import CodeEditor from "../../../components/CodeEditor";
   export default {
     name: "AddTask",
+    components: {CodeEditor},
     props: {
       value: {
         type: Boolean,
