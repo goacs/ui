@@ -1,6 +1,6 @@
 <template>
   <prism-editor
-          class="my-editor height-300 textarea"
+          class="my-editor height-300"
           v-model="code"
           :highlight="highlighter"
           :line-numbers="lineNumbers"
@@ -14,6 +14,7 @@
   import "prismjs/components/prism-clike";
   import "prismjs/components/prism-go";
   import "prismjs/themes/prism.css";
+  import "prismjs/plugins/custom-class/prism-custom-class";
 
   export default {
     name: "CodeEditor",
@@ -36,6 +37,8 @@
       }
     },
     mounted() {
+      window.Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
+
       this.code = this.value;
     },
     watch: {
@@ -46,16 +49,19 @@
   }
 </script>
 
-<style scoped>
-.my-editor {
-  background: #f5f2f0;
-  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 5px;
-}
+<style>
+  .my-editor {
+    background: #f5f2f0;
+    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+    padding: 5px;
+  }
 
-.height-300 {
-  height: 300px;
-}
+  .height-300 {
+    height: 300px;
+  }
+
+  .prism-number,
+  .prism-tag {
+    color: #905;
+  }
 </style>
