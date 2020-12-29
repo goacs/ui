@@ -40,6 +40,23 @@ const routes = [
         path: 'file',
         name: 'file-list',
         component: () => import('@/views/files/FileList.vue')
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('@/views/settings/SettingsView.vue'),
+        children: [
+          {
+            path: '',
+            name: 'settings-main',
+            component: () => import('@/views/settings/Configuration.vue'),
+          },
+          {
+            path: 'tasks',
+            name: 'settings-tasks',
+            component: () => import('@/views/settings/Tasks.vue'),
+          },
+        ]
       }
     ],
     meta: {
