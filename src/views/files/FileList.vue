@@ -1,8 +1,26 @@
 <template>
-    <div>
-        <b-button tag="button" type="is-primary" class="mb-3" icon-left="upload" @click="uploadDialog = true">Upload
-        </b-button>
-        <UploadFile v-model="uploadDialog" @uploaded="refreshList"></UploadFile>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                Tasks
+            </p>
+            <div class="card-header-icon" aria-label="more options">
+                <b-button
+                        size="is-small"
+                        @click="uploadDialog = true"
+                >
+                    <b-icon
+                            icon="upload"
+                            size="is-small"
+                    >
+
+                    </b-icon>
+                    Upload
+                </b-button>
+                <UploadFile v-model="uploadDialog" @uploaded="refreshList"></UploadFile>
+            </div>
+        </header>
+        <div class="card-content">
         <PaginatedTable
                 action="file/list"
                 :autoload="false"
@@ -28,6 +46,7 @@
                 </b-button>
             </b-table-column>
         </PaginatedTable>
+    </div>
     </div>
 </template>
 

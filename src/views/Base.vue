@@ -26,7 +26,7 @@
             <router-link class="navbar-item" :to="{name: 'file-list'}">
               Files
             </router-link>
-            <router-link class="navbar-item" :to="{name: 'settings'}">
+            <router-link class="navbar-item" :to="{name: 'settings-main'}">
               Settings
             </router-link>
 

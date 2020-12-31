@@ -57,7 +57,7 @@
 </template>
 
 <script>
-  import CodeEditor from "../../../components/CodeEditor";
+  import CodeEditor from "./CodeEditor";
   export default {
     name: "AddTask",
     components: {CodeEditor},

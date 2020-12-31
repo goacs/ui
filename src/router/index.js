@@ -49,12 +49,12 @@ const routes = [
           {
             path: '',
             name: 'settings-main',
-            component: () => import('@/views/settings/Configuration.vue'),
+            component: () => import('@/views/settings/ConfigurationView.vue'),
           },
           {
             path: 'tasks',
             name: 'settings-tasks',
-            component: () => import('@/views/settings/Tasks.vue'),
+            component: () => import('@/views/settings/TasksList.vue'),
           },
         ]
       }
