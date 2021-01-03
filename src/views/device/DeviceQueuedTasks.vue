@@ -67,7 +67,7 @@
         this.$store.dispatch('device/fetchQueuedTasks', this.device.uuid)
       },
       async saveTask(task) {
-        task.cpe_uuid = this.device.uuid
+        task.for_id = this.device.uuid
         try {
           await this.$store.dispatch('device/addTask', task)
           this.fetchTasks()

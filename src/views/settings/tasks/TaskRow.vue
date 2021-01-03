@@ -1,11 +1,11 @@
 <template>
   <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>{{ task.id }}</td>
+    <td>{{ task.for_name }} {{ task.for_id }}</td>
+    <td>{{ task.event }}</td>
+    <td>{{ task.task }}</td>
+    <td>{{ task.script }}</td>
+    <td>{{ task.infinite }}</td>
   </tr>
 </template>
 

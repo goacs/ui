@@ -36,7 +36,7 @@
         </tbody>
       </table>
     </div>
-    <AddTask is-new v-model="addDialog" @onSave="addTask"></AddTask>
+    <AddTask is-new v-model="addDialog" @onSave="saveTask"></AddTask>
   </div>
 </template>
 
@@ -66,10 +66,21 @@
           this.$store.commit('tasks/setTasks', [])
         }
       },
-      async addTask(task) {
-        console.log(task)
-        this.addDialog = false
-      },
+      async saveTask(task) {
+        try {
+          console.log(task)
+          await this.$store.dispatch('tasks/storeTask', task)
+          await this.fetchTasks()
+          this.addDialog = false;
+        } catch (e) {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Error. Cannot add task: ${e.response.data.message}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        }
+      }
     },
     async beforeMount() {
       await this.fetchTasks()
