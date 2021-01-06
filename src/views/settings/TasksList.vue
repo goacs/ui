@@ -29,6 +29,7 @@
             <th>Task</th>
             <th>Script</th>
             <th>Infinite</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,17 +37,18 @@
         </tbody>
       </table>
     </div>
-    <AddTask is-new v-model="addDialog" @onSave="saveTask"></AddTask>
+    <TaskDialog is-new v-model="addDialog" @onSave="saveTask"></TaskDialog>
+    <TaskDialog v-model="editDialog" :task="editedTask" @onSave="updateTask"></TaskDialog>
   </div>
 </template>
 
 <script>
   import TaskRow from "./tasks/TaskRow";
   import {mapGetters} from "vuex";
-  import AddTask from "../../components/AddTask";
+  import TaskDialog from "../../components/TaskDialog";
   export default {
     name: "TasksList",
-    components: {AddTask, TaskRow},
+    components: {TaskDialog, TaskRow},
     computed: {
       ...mapGetters({
         tasks: 'tasks/getTasks',
@@ -55,6 +57,8 @@
     data() {
       return {
         addDialog: false,
+        editDialog: false,
+        editedTask: {},
       };
     },
     methods: {
@@ -66,9 +70,26 @@
           this.$store.commit('tasks/setTasks', [])
         }
       },
+      async editTask(task) {
+        this.editedTask = task;
+        this.editDialog = true;
+      },
+      async updateTask(task) {
+        try {
+          await this.$store.dispatch('tasks/updateTask', task)
+          await this.fetchTasks()
+          this.editDialog = false
+        } catch (e) {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: `Error. Cannot update task: ${e.response.data.message}`,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        }
+      },
       async saveTask(task) {
         try {
-          console.log(task)
           await this.$store.dispatch('tasks/storeTask', task)
           await this.fetchTasks()
           this.addDialog = false;
@@ -84,7 +105,6 @@
     },
     async beforeMount() {
       await this.fetchTasks()
-
     }
   }
 </script>

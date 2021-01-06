@@ -1,6 +1,7 @@
 <template>
   <b-modal
           v-model="value"
+          has-modal-card
   >
     <form>
       <div class="modal-card">
@@ -14,7 +15,7 @@
             >
               <b-icon
                       size="is-small"
-                      icon="trash-can-outline"
+                      icon="delete"
               >
 
               </b-icon>
@@ -23,7 +24,7 @@
           </div>
         </header>
         <section class="modal-card-body">
-          <b-field label="Event">
+          <b-field label="Event" horizontal>
             <b-select placeholder="Select event"
                       v-model="task.event"
             >
@@ -32,7 +33,7 @@
               <option value="GetParameterValuesResponse">GetParameterValues Response</option>
             </b-select>
           </b-field>
-          <b-field label="Type">
+          <b-field label="Type" horizontal>
             <b-select placeholder="Select type"
               v-model="task.task"
             >
@@ -42,7 +43,12 @@
               <option value="UploadFirmware">Upload Firmware</option>
             </b-select>
           </b-field>
-          <b-field v-if="task.task === 'RunScript'" label="Script">
+          <b-field label="Infinite" horizontal>
+            <b-checkbox v-model="task.infinite">
+              {{ task.infinite ? `Task will be not deleted when executed` : `` }}
+            </b-checkbox>
+          </b-field>
+          <b-field v-if="task.task === 'RunScript'" label="Script" horizontal>
             <CodeEditor v-model="task.script"></CodeEditor>
 <!--            <b-input type="textarea" v-model="task.script"></b-input>-->
           </b-field>
@@ -59,7 +65,7 @@
 <script>
   import CodeEditor from "./CodeEditor";
   export default {
-    name: "AddTask",
+    name: "TaskDialog",
     components: {CodeEditor},
     props: {
       value: {
@@ -69,16 +75,21 @@
       isNew: {
         type: Boolean,
         default: () => false,
+      },
+      task: {
+        type: Object,
+        default: () => {
+          return {
+            task: '',
+            event: '',
+            script: '',
+          };
+        }
       }
     },
     data() {
       return {
         saving: false,
-        task: {
-          task: '',
-          event: '',
-          script: '',
-        }
       }
     },
     methods: {

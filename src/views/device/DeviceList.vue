@@ -66,8 +66,15 @@
           </b-table-column>
 
           <b-table-column field="actions" label="Actions" v-slot="props">
-            <b-button tag="router-link" type="is-primary" :to="{ name: 'devices-view', params: { uuid: props.row.uuid } }">
-              <b-icon icon="magnify"></b-icon>
+            <b-button
+                    tag="router-link" :to="{ name: 'devices-view', params: { uuid: props.row.uuid } }"
+                    size="is-small"
+            >
+              <b-icon
+                      icon="magnify"
+                      size="is-small"
+              >
+              </b-icon>
             </b-button>
           </b-table-column>
         </PaginatedTable>

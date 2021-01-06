@@ -1,12 +1,25 @@
 <template>
   <b-modal
           v-model="value"
+          has-modal-card
   >
     <form>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Edit template</p>
-          <b-button type="is-danger" :loading="deleting" outlined icon-left="delete" @click="unassign"></b-button>
+          <b-button
+                  size="is-small"
+                  type="is-danger"
+                  @click="unassign"
+          >
+            <b-icon
+                    size="is-small"
+                    icon="delete"
+            >
+
+            </b-icon>
+            Unassign
+          </b-button>
 
         </header>
         <section class="modal-card-body">

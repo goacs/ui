@@ -36,6 +36,16 @@
         saved: false,
       };
     },
+    computed: {
+      config: {
+        get() {
+          return this.$store.getters['config/getConfig']
+        },
+        set(config) {
+          this.$store.commit('config/setConfig', config)
+        }
+      },
+    },
     methods: {
       save() {
         try {
@@ -61,16 +71,20 @@
         }
       }
     },
-    computed: {
-      config: {
-        get() {
-          return this.$store.getters['config/getConfig']
-        },
-        set(config) {
-          this.$store.commit('config/setConfig', config)
-        }
-      },
+    async beforeMount() {
+      try {
+        const response = await this.$store.dispatch('config/getConfig')
+        this.$store.commit('config/setConfig', response.data.data)
+      } catch (e) {
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: `Cannot fetch config data`,
+          position: 'is-bottom',
+          type: 'is-danger'
+        })
+      }
     }
+
   }
 </script>
 

@@ -40,17 +40,17 @@
       </a>
     </div>
   </div>
-    <AddTask v-model="addDialog" is-new @onSave="saveTask"></AddTask>
+    <TaskDialog v-model="addDialog" is-new @onSave="saveTask"></TaskDialog>
   </div>
 </template>
 
 <script>
   import {mapGetters} from "vuex";
-  import AddTask from "../../components/AddTask";
+  import TaskDialog from "../../components/TaskDialog";
 
   export default {
     name: "DeviceQueuedTasks",
-    components: {AddTask},
+    components: {TaskDialog},
     data() {
       return {
         addDialog: false,

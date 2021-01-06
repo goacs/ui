@@ -6,6 +6,18 @@
     <td>{{ task.task }}</td>
     <td>{{ task.script }}</td>
     <td>{{ task.infinite }}</td>
+    <td>
+      <b-button
+              size="is-small"
+              @click="$parent.editTask(task)"
+      >
+        <b-icon
+                icon="magnify"
+                size="is-small"
+        >
+        </b-icon>
+      </b-button>
+    </td>
   </tr>
 </template>
 

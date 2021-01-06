@@ -7,4 +7,7 @@ export default {
   async storeTask(context, data) {
     return await this._vm.$http.post('/tasks', data)
   },
+  async updateTask(context, data) {
+    return await this._vm.$http.post(`/tasks/${data.id}`, data)
+  }
 }
