@@ -21,7 +21,7 @@
     components: {
       PrismEditor
     },
-    params: {
+    props: {
       value: {
         type: String,
         required: true,
@@ -38,10 +38,10 @@
     },
     mounted() {
       window.Prism.plugins.customClass.map({ number: "prism-number", tag: "prism-tag" });
-
-      this.code = this.value;
+      this.code = this.value
     },
     watch: {
+
       code(val) {
         this.$emit('input', val);
       },

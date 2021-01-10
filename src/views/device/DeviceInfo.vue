@@ -21,6 +21,7 @@
       </div>
     </header>
     <div class="card-content">
+      <div class="table-container">
       <table class="table is-fullwidth is-striped">
         <tbody>
         <tr>
@@ -32,7 +33,7 @@
           <td>{{ device.manufacturer }}</td>
         </tr>
         <tr>
-          <th>OUT</th>
+          <th>OUI</th>
           <td>{{ device.oui }}</td>
         </tr>
         <tr>
@@ -48,11 +49,16 @@
           <td>{{ device.software_version }}</td>
         </tr>
         <tr>
+          <th>Connection request URL</th>
+          <td><a :href="device.connection_request_url">{{ device.connection_request_url }}</a></td>
+        </tr>
+        <tr>
           <th>Last connection time</th>
           <td>{{ device.updated_at | moment }}</td>
         </tr>
         </tbody>
       </table>
+      </div>
       <div class="buttons">
         <b-button
         @click="kick"

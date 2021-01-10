@@ -1,6 +1,6 @@
 <template>
   <div class="columns">
-    <div class="column is-3">
+    <div class="column is-2">
       <aside class="menu is-hidden-mobile">
         <p class="menu-label">
           Settings
@@ -11,7 +11,7 @@
         </ul>
       </aside>
     </div>
-    <div class="column is-9">
+    <div class="column is-10">
       <router-view></router-view>
     </div>
   </div>

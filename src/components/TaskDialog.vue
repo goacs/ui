@@ -2,6 +2,8 @@
   <b-modal
           v-model="value"
           has-modal-card
+          :width="1200"
+          scroll="keep"
   >
     <form>
       <div class="modal-card">
@@ -29,7 +31,7 @@
                       v-model="task.event"
             >
               <option value="inform">Inform</option>
-              <option value="empty">Empty</option>
+<!--              <option value="empty">Empty</option>-->
               <option value="GetParameterValuesResponse">GetParameterValues Response</option>
             </b-select>
           </b-field>
@@ -80,6 +82,7 @@
         type: Object,
         default: () => {
           return {
+            infinite: false,
             task: '',
             event: '',
             script: '',
@@ -90,7 +93,7 @@
     data() {
       return {
         saving: false,
-      }
+      };
     },
     methods: {
       save() {

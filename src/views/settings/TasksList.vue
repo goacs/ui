@@ -20,6 +20,7 @@
       </div>
     </header>
     <div class="card-content">
+      <div class="table-container">
       <table class="table is-fullwidth is-hoverable">
         <thead>
           <tr>
@@ -36,6 +37,7 @@
           <tr is="TaskRow" v-for="task in tasks" :key="task.id" :task="task"></tr>
         </tbody>
       </table>
+      </div>
     </div>
     <TaskDialog is-new v-model="addDialog" @onSave="saveTask"></TaskDialog>
     <TaskDialog v-model="editDialog" :task="editedTask" @onSave="updateTask"></TaskDialog>
