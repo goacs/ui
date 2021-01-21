@@ -59,7 +59,7 @@
                       size="is-small" />
             </template>
             <template v-slot="props">
-              <template v-if="props.row.value.length > 100">
+              <template v-if="props.row.valuestruct.value.length > 100">
                 {{ stripString(props, 100) }}
                 <b-button
                 @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
@@ -70,7 +70,7 @@
                 </b-button>
               </template>
               <template v-else>
-                {{ props.row.value }}
+                {{ props.row.valuestruct.value }}
               </template>
             </template>
           </b-table-column>
@@ -100,7 +100,7 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <pre>{{ props.row.value }}</pre>
+                  <pre>{{ props.row.valuestruct.value }}</pre>
                 </div>
               </div>
             </article>
@@ -262,8 +262,8 @@
           })
         }
       },
-      stripString(value, len) {
-        return value.row.value.substr(0, len);
+      stripString(prop, len) {
+        return prop.row.valuestruct.value.substr(0, len);
       },
     },
     beforeDestroy() {

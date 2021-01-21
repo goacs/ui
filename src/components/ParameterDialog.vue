@@ -34,7 +34,7 @@
           <b-field label="Value" label-position="on-border">
             <b-input
                     type="text"
-                    v-model="item.value"
+                    v-model="item.valuestruct.value"
                     placeholder="Value">
             </b-input>
           </b-field>
