@@ -165,11 +165,17 @@
         addDialog: false,
         addingItem: {
           name: "",
-          value: "",
+          valuestruct: {
+            value: ""
+          },
           flags: "",
         },
         editDialog: false,
-        editedItem: {},
+        editedItem: {
+          valuestruct: {
+            value: ""
+          },
+        },
         editedIndex: -1,
         saving: false,
       }

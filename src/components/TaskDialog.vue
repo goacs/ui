@@ -26,6 +26,7 @@
           </div>
         </header>
         <section class="modal-card-body">
+          <div class="content">
           <b-field label="Event" horizontal>
             <b-select placeholder="Select event"
                       v-model="task.event"
@@ -54,6 +55,19 @@
             <CodeEditor v-model="task.script"></CodeEditor>
 <!--            <b-input type="textarea" v-model="task.script"></b-input>-->
           </b-field>
+          <template v-if="task.task === 'UploadFirmware'">
+          <b-field label="Choose file" horizontal>
+              <FirmwareSelect v-model="fileName"/>
+          </b-field>
+          <b-field label="File type" horizontal>
+            <b-select placeholder="Select type" v-model="fileType">
+              <option value="1 Firmware Upgrade Image">1 Firmware Upgrade Image</option>
+              <option value="2 Web Content">2 Web Content</option>
+              <option value="3 Vendor Configuration File">3 Vendor Configuration File</option>
+            </b-select>
+          </b-field>
+          </template>
+          </div>
         </section>
         <footer class="modal-card-foot">
           <b-button @click="$emit('input', false)">Close</b-button>
@@ -66,9 +80,10 @@
 
 <script>
   import CodeEditor from "./CodeEditor";
+  import FirmwareSelect from "@/components/FirmwareSelect";
   export default {
     name: "TaskDialog",
-    components: {CodeEditor},
+    components: {FirmwareSelect, CodeEditor},
     props: {
       value: {
         type: Boolean,
@@ -93,16 +108,27 @@
     data() {
       return {
         saving: false,
+        fileName: '',
+        fileType: '',
       };
     },
     methods: {
+      prepareTask() {
+        let newTask = Object.assign({}, this.task)
+        if(newTask.task === 'UploadFirmware') {
+          newTask.script = `${this.fileName}|${this.fileType}`
+        }
+        return newTask
+      },
       save() {
-        this.$emit('onSave', this.task)
+        this.$emit('onSave', this.prepareTask())
       }
     }
   }
 </script>
 
-<style scoped>
-
+<style>
+.dropdown-menu {
+  position: static;
+}
 </style>

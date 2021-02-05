@@ -68,8 +68,14 @@
       },
       async saveTask(task) {
         task.for_id = this.device.uuid
+
+        const params = {
+          task: task,
+          cpe_uuid: this.device.uuid
+        }
+
         try {
-          await this.$store.dispatch('device/addTask', task)
+          await this.$store.dispatch('device/addTask', params)
           this.fetchTasks()
           this.addDialog = false;
         } catch (e) {

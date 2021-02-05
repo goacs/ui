@@ -100,7 +100,9 @@
           })
           this.page = response.data.page
           this.totalPages = response.data.total
-          this.items.push(...response.data.data);
+          if(response.data.data !== null) {
+            this.items.push(...response.data.data);
+          }
         } catch (e) {
           this.$buefy.toast.open({
             type: 'is-danger',
