@@ -29,7 +29,7 @@
           <div class="content">
           <b-field label="Event" horizontal>
             <b-select placeholder="Select event"
-                      v-model="task.event"
+                      v-model="event"
             >
               <option value="inform">Inform</option>
 <!--              <option value="empty">Empty</option>-->
@@ -38,7 +38,7 @@
           </b-field>
           <b-field label="Type" horizontal>
             <b-select placeholder="Select type"
-              v-model="task.task"
+              v-model="type"
             >
               <option value="RunScript">Run Script</option>
               <option value="SendParameters">Send Parameters</option>
@@ -47,15 +47,15 @@
             </b-select>
           </b-field>
           <b-field label="Infinite" horizontal>
-            <b-checkbox v-model="task.infinite">
-              {{ task.infinite ? `Task will be not deleted when executed` : `` }}
+            <b-checkbox v-model="infinite">
+              {{ infinite ? `Payload will be not deleted when executed` : `` }}
             </b-checkbox>
           </b-field>
-          <b-field v-if="task.task === 'RunScript'" label="Script" horizontal>
-            <CodeEditor v-model="task.script"></CodeEditor>
+          <b-field v-if="type === 'RunScript'" label="Script" horizontal>
+            <CodeEditor v-model="script"></CodeEditor>
 <!--            <b-input type="textarea" v-model="task.script"></b-input>-->
           </b-field>
-          <template v-if="task.task === 'UploadFirmware'">
+          <template v-if="type === 'UploadFirmware'">
           <b-field label="Choose file" horizontal>
               <FirmwareSelect v-model="fileName"/>
           </b-field>
@@ -81,6 +81,7 @@
 <script>
   import CodeEditor from "./CodeEditor";
   import FirmwareSelect from "@/components/FirmwareSelect";
+  import {Task} from "@/helpers/Task";
   export default {
     name: "TaskDialog",
     components: {FirmwareSelect, CodeEditor},
@@ -96,12 +97,7 @@
       task: {
         type: Object,
         default: () => {
-          return {
-            infinite: false,
-            task: '',
-            event: '',
-            script: '',
-          };
+          return new Task()
         }
       }
     },
@@ -110,18 +106,63 @@
         saving: false,
         fileName: '',
         fileType: '',
+        type: '',
+        event: '',
+        script: '',
+        path: '',
+        infinite: false,
+        for_id: '',
+        for_name: '',
+        taskid: 0,
+        newtask: new Task()
       };
     },
     methods: {
-      prepareTask() {
-        let newTask = Object.assign({}, this.task)
-        if(newTask.task === 'UploadFirmware') {
-          newTask.script = `${this.fileName}|${this.fileType}`
+      serializeTask() {
+        this.newtask.event = this.event
+        this.newtask.for_id = this.for_id
+        this.newtask.for_name = this.for_name
+        this.newtask.id = this.taskid
+        if(this.type === 'UploadFirmware') {
+          this.newtask.asFirmwareUpdateTask(this.fileType, this.fileName)
+        } else if (this.type === 'RunScript') {
+          this.newtask.asScriptTask(this.script)
+        } else if (this.type === 'AddObject') {
+          this.newtask.asAddObject(this.path)
+        } else if (this.type === 'DeleteObject') {
+          this.newtask.asDeleteObjectTask(this.path)
+        } else if(this.type === 'Reboot') {
+          this.newtask.asReboot()
         }
-        return newTask
+        this.newtask.payload = JSON.stringify(this.newtask.payload)
+      },
+      unserializeTask() {
+        this.type = this.task.task
+        this.event = this.task.event
+        this.infinite = this.task.infinite
+        this.for_id = this.task.for_id
+        this.for_name = this.task.for_name
+        this.taskid = this.task.id
+        if(this.type === 'UploadFirmware') {
+          this.fileType = this.task.payload.filetype
+          this.fileName = this.task.payload.filename
+        } else if (this.type === 'RunScript') {
+          this.script = this.task.payload.script
+        } else if (this.type === 'AddObject') {
+          this.path = this.task.payload.path
+        } else if (this.type === 'DeleteObject') {
+          this.path = this.task.payload.path
+        }
       },
       save() {
-        this.$emit('onSave', this.prepareTask())
+        this.serializeTask()
+        this.$emit('onSave', this.newtask)
+      }
+    },
+    watch: {
+      task() {
+        console.log('unserialization')
+        this.unserializeTask()
       }
     }
   }

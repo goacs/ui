@@ -28,7 +28,7 @@
             <th>For</th>
             <th>Event</th>
             <th>Task</th>
-            <th>Script</th>
+            <th>Payload</th>
             <th>Infinite</th>
             <th>Actions</th>
           </tr>

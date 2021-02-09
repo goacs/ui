@@ -4,7 +4,7 @@
     <td>{{ task.for_name }} {{ task.for_id }}</td>
     <td>{{ task.event }}</td>
     <td>{{ task.task }}</td>
-    <td>{{ stripString(task.script, 50) }}</td>
+    <td>{{ stripString(task.payload, 50) }}</td>
     <td>{{ task.infinite }}</td>
     <td>
       <b-button
@@ -35,7 +35,8 @@
         if(!value) {
           return
         }
-        return value.substr(0, len);
+        value = JSON.stringify(value)
+        return value.substr(0, len)+"...";
       },
     }
   }
