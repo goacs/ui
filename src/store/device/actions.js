@@ -3,12 +3,13 @@
 import {filterToQueryString} from "../../helpers/URL";
 
 export default {
-  async list(context, paginationData) {
-    return await this._vm.$http.get('/device?page='+paginationData.page+'&per_page='+paginationData.perPage)
+  async list(context, parameters) {
+    const filterStr = filterToQueryString(parameters.filter)
+    return await this._vm.$http.get(`/device?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
   },
-  async fetchDevice({ commit }, uuid) {
+  async fetchDevice({ commit }, id) {
     try {
-      const response = await this._vm.$http.get(`/device/${uuid}`)
+      const response = await this._vm.$http.get(`/device/${id}`)
       commit('setDevice', response.data.data)
     } catch (e) {
       console.error("Cannot fetch device")
@@ -17,7 +18,7 @@ export default {
   async fetchParameters({ commit }, parameters) {
     const filterStr = filterToQueryString(parameters.filter)
     try {
-      const response = await this._vm.$http.get(`/device/${parameters.uuid}/parameters?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
+      const response = await this._vm.$http.get(`/device/${parameters.id}/parameters?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
       commit('setParameters', response.data.data)
       return response
     } catch (e) {
@@ -25,54 +26,54 @@ export default {
     }
   },
   async storeParameter(context, data) {
-    return await this._vm.$http.post(`/device/${data.uuid}/parameters`, {
+    return await this._vm.$http.post(`/device/${data.id}/parameters`, {
       name: data.name,
       value: data.value,
       flag: data.flag,
     })
   },
   async updateParameters(context, data) {
-    return await this._vm.$http.put(`/device/${data.uuid}/parameters`, {
+    return await this._vm.$http.put(`/device/${data.id}/parameters`, {
       name: data.name,
       value: data.value,
       flag: data.flag,
     })
   },
   async deleteParameter(context, data) {
-    return await this._vm.$http.delete(`/device/${data.uuid}/parameters`, {
+    return await this._vm.$http.delete(`/device/${data.id}/parameters`, {
       data: {
         name: data.name,
       },
     })
   },
-  async kickDevice(context, uuid) {
-    return await this._vm.$http.get(`/device/${uuid}/kick`)
+  async kickDevice(context, id) {
+    return await this._vm.$http.get(`/device/${id}/kick`)
   },
-  async deleteDevice(context, uuid) {
-    return await this._vm.$http.delete(`/device/${uuid}`)
+  async deleteDevice(context, id) {
+    return await this._vm.$http.delete(`/device/${id}`)
   },
   async addObject(context, params) {
-    const {uuid, name, key} = params
-    return await this._vm.$http.post(`/device/${uuid}/addobject`, {
+    const {id, name, key} = params
+    return await this._vm.$http.post(`/device/${id}/addobject`, {
       name,
       key,
     })
   },
-  async fetchParameterValues(context, uuid) {
-    return await this._vm.$http.post(`/device/${uuid}/getparametervalues`)
+  async fetchParameterValues(context, id) {
+    return await this._vm.$http.post(`/device/${id}/getparametervalues`)
   },
-  async fetchQueuedTasks({ commit }, uuid) {
+  async fetchQueuedTasks({ commit }, id) {
     try {
-      const response = await this._vm.$http.get(`/device/${uuid}/tasks`)
+      const response = await this._vm.$http.get(`/device/${id}/tasks`)
       commit('setQueuedTasks', response.data.data)
       return response
     } catch (e) {
       console.log('cannot fetch queued tasks', e)
     }
   },
-  async fetchDeviceTemplates({ commit }, uuid) {
+  async fetchDeviceTemplates({ commit }, id) {
     try {
-      const response = await this._vm.$http.get(`/device/${uuid}/templates`)
+      const response = await this._vm.$http.get(`/device/${id}/templates`)
       commit('setDeviceTemplates', response.data.data)
       return response
     } catch (e) {
@@ -80,16 +81,16 @@ export default {
     }
   },
   async assignTemplate(context, params) {
-    return await this._vm.$http.post(`/device/${params.cpe_uuid}/templates`, {
+    return await this._vm.$http.post(`/device/${params.device_id}/templates`, {
       template_id: params.template_id,
       priority: params.priority,
     })
   },
   async unAssignTemplate(context, params) {
-    return await this._vm.$http.delete(`/device/${params.cpe_uuid}/templates/${params.template_id}`)
+    return await this._vm.$http.delete(`/device/${params.device_id}/templates/${params.template_id}`)
   },
 
   async addTask(context, params) {
-    return await this._vm.$http.post(`/device/${params.cpe_uuid}/tasks`, params.task)
+    return await this._vm.$http.post(`/device/${params.device_id}/tasks`, params.task)
   }
 }

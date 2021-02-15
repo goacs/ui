@@ -2,7 +2,7 @@
   <b-modal
           v-model="value"
           has-modal-card
-          :width="1200"
+          width="1200"
           scroll="keep"
   >
     <form>
@@ -171,5 +171,8 @@
 <style>
 .dropdown-menu {
   position: static;
+}
+.modal-card {
+  width: 100%;
 }
 </style>

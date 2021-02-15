@@ -59,7 +59,7 @@
                       size="is-small" />
             </template>
             <template v-slot="props">
-              <template v-if="props.row.valuestruct.value.length > 100">
+              <template v-if="props.row.value.length > 100">
                 {{ stripString(props, 100) }}
                 <b-button
                 @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
@@ -70,7 +70,7 @@
                 </b-button>
               </template>
               <template v-else>
-                {{ props.row.valuestruct.value }}
+                {{ props.row.value }}
               </template>
             </template>
           </b-table-column>
@@ -78,13 +78,13 @@
           <b-table-column field="flag" label="Flag">
 
             <template v-slot="props">
-              {{ parseFlag(props.row.flag) }}
+              {{ parseFlag(props.row.flags) }}
             </template>
           </b-table-column>
 
           <b-table-column field="actions" label="Actions" v-slot="props">
             <section class="b-tooltips">
-              <b-tooltip label="New instance" type="is-dark" v-if="props.row.flag.add_object === true">
+              <b-tooltip label="New instance" type="is-dark" v-if="props.row.flags.object === true">
                 <b-button type="is-primary" size='is-small' @click="addObject(props.row)">
                   <b-icon icon="plus" size="is-small"></b-icon>
                 </b-button>
@@ -100,7 +100,7 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <pre>{{ props.row.valuestruct.value }}</pre>
+                  <pre>{{ props.row.value }}</pre>
                 </div>
               </div>
             </article>
@@ -153,13 +153,13 @@
           },
           {
             value: 'a',
-            text: 'AddObject',
+            text: 'Object',
           }
         ],
         action: {
           name: 'device/fetchParameters',
           parameters: {
-            uuid: this.$route.params.uuid
+            id: this.$route.params.id
           }
         },
         addDialog: false,
@@ -269,7 +269,7 @@
         }
       },
       stripString(prop, len) {
-        return prop.row.valuestruct.value.substr(0, len);
+        return prop.row.value.substr(0, len);
       },
     },
     beforeDestroy() {

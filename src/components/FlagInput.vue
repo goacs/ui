@@ -37,20 +37,12 @@
             name: 'Send'
           },
           {
-            value: 'add_object',
-            name: 'Add Object'
+            value: 'object',
+            name: 'Object'
           },
           {
             value: 'system',
             name: 'System'
-          },
-          {
-            value: 'periodic_read',
-            name: 'Periodic Read'
-          },
-          {
-            value: 'important',
-            name: 'Important'
           },
         ]
       }

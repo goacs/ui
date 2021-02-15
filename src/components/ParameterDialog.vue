@@ -34,12 +34,12 @@
           <b-field label="Value" label-position="on-border">
             <b-input
                     type="text"
-                    v-model="item.valuestruct.value"
+                    v-model="item.value"
                     placeholder="Value">
             </b-input>
           </b-field>
           <b-field label="Flags">
-            <FlagInput v-model="item.flag"></FlagInput>
+            <FlagInput v-model="item.flags"></FlagInput>
           </b-field>
         </section>
         <footer class="modal-card-foot">

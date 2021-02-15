@@ -71,7 +71,7 @@
 
     },
     mounted() {
-      this.$store.dispatch('device/fetchDeviceTemplates', this.device.uuid)
+      this.$store.dispatch('device/fetchDeviceTemplates', this.device.id)
     }
   }
 </script>

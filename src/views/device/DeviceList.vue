@@ -27,7 +27,7 @@
           :dense="true"
           ref="table"
         >
-          <b-table-column field="uuid" label="UUID" searchable>
+          <b-table-column field="id" label="ID" searchable>
             <template
                     slot="searchable"
                     slot-scope="props">
@@ -38,7 +38,7 @@
                       size="is-small" />
             </template>
             <template v-slot="props">
-              {{ props.row.uuid }}
+              {{ props.row.id }}
             </template>
           </b-table-column>
 
@@ -67,7 +67,7 @@
 
           <b-table-column field="actions" label="Actions" v-slot="props">
             <b-button
-                    tag="router-link" :to="{ name: 'devices-view', params: { uuid: props.row.uuid } }"
+                    tag="router-link" :to="{ name: 'devices-view', params: { id: props.row.id } }"
                     size="is-small"
             >
               <b-icon

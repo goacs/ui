@@ -61,10 +61,10 @@
         dashboard: "dashboard/getDashboard"
       }),
       username() {
-        return this.$auth.user().username || "UKNNOWN"
+        return this.$auth.user().name || "UKNNOWN"
       }
     },
-    mounted() {
+    beforeMount() {
       this.$store.dispatch("dashboard/fetchDashboard")
     }
   }

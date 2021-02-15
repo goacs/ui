@@ -64,14 +64,14 @@
     },
     methods: {
       async fetchTasks() {
-        this.$store.dispatch('device/fetchQueuedTasks', this.device.uuid)
+        this.$store.dispatch('device/fetchQueuedTasks', this.device.id)
       },
       async saveTask(task) {
-        task.for_id = this.device.uuid
+        task.for_id = this.device.id
 
         const params = {
           task: task,
-          cpe_uuid: this.device.uuid
+          device_id: this.device.id
         }
 
         try {

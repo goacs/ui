@@ -28,7 +28,7 @@
                   :dense="true"
                   ref="table"
           >
-            <b-table-column field="uuid" label="ID" v-slot="props">
+            <b-table-column field="id" label="ID" v-slot="props">
               {{ props.row.id }}
             </b-table-column>
 
@@ -37,7 +37,7 @@
             </b-table-column>
 
             <b-table-column field="parameter_count" label="Parameter count" v-slot="props">
-              {{ props.row.parameter_count }}
+              {{ props.row.parameters_count }}
             </b-table-column>
 
             <b-table-column field="actions" label="Actions" v-slot="props">

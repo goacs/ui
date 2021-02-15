@@ -6,11 +6,11 @@
             <div class="box">
                 <form>
                     <section>
-                        <b-field label="Username"
-                                 :type="errors['username'] ? 'is-danger' : ''"
-                                 :message="errors['username']"
+                        <b-field label="Email"
+                                 :type="errors['email'] ? 'is-danger' : ''"
+                                 :message="errors['email']"
                         >
-                            <b-input v-model="username"></b-input>
+                            <b-input v-model="email"></b-input>
                         </b-field>
 
                         <b-field label="Password"
@@ -35,7 +35,7 @@
     export default {
         name: "Login",
         data: () => ({
-            username: '',
+            email: '',
             password: '',
             loading: false,
             errors: [],
@@ -45,11 +45,11 @@
                 this.loading = true
                 try {
                     await this.$auth.login({
-                        username: this.username,
+                        email: this.email,
                         password: this.password,
                     })
                 } catch (e) {
-                    this.errors = e.response.data.data;
+                    // this.errors = e.response.data.data;
                 } finally {
                     this.loading = false
                 }

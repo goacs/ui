@@ -1,5 +1,5 @@
 <template>
-  <div v-if="device.uuid">
+  <div v-if="device.id">
     <div class="columns">
       <div class="column is-half">
         <DeviceInfo></DeviceInfo>
@@ -41,8 +41,8 @@ export default {
       device: 'device/getDevice',
     }),
   },
-  async created() {
-    await this.$store.dispatch('device/fetchDevice', this.$route.params.uuid)
+  async beforeMount() {
+    await this.$store.dispatch('device/fetchDevice', this.$route.params.id)
   },
   beforeDestroy() {
     this.$store.commit('device/setDevice', {})

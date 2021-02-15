@@ -26,7 +26,7 @@
         <tbody>
         <tr>
           <th>UUID</th>
-          <td>{{ device.uuid }}</td>
+          <td>{{ device.id }}</td>
         </tr>
         <tr>
           <th>Manufacturer</th>
@@ -89,14 +89,14 @@
     },
     methods: {
       async deleteDevice() {
-        await this.$store.dispatch('device/deleteDevice', this.device.uuid)
+        await this.$store.dispatch('device/deleteDevice', this.device.id)
         await this.$router.push({ name: 'devices-list'})
       },
       kick() {
-        this.$store.dispatch('device/kickDevice', this.device.uuid)
+        this.$store.dispatch('device/kickDevice', this.device.id)
       },
       getParameterValues() {
-        this.$store.dispatch('device/fetchParameterValues', this.device.uuid)
+        this.$store.dispatch('device/fetchParameterValues', this.device.id)
       }
     }
   }
