@@ -1,6 +1,7 @@
 <template>
   <b-modal
           v-model="value"
+          has-modal-card
           :can-cancel="false"
   >
     <form>

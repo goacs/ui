@@ -2,7 +2,7 @@
     <div class="card">
         <header class="card-header">
             <p class="card-header-title">
-                Tasks
+                Files
             </p>
             <div class="card-header-icon" aria-label="more options">
                 <b-button

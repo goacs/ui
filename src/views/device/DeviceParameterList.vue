@@ -106,7 +106,7 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <pre>{{ props.row.value }}</pre>
+                  <pre class="parameter">{{ props.row.value }}</pre>
                 </div>
               </div>
             </article>
@@ -289,6 +289,14 @@
     .b-tooltip:not(:last-child) {
       margin-right: .5em
     }
-
   }
+
+  pre.parameter {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+
 </style>
