@@ -20,14 +20,14 @@
           <div class="control is-clickable" :key="template.id" @click="editTemplate(template)">
             <b-taglist attached>
                   <b-tag type="is-black" size="is-medium" ellipsis>{{ template.name }}</b-tag>
-                  <b-tag type="is-info" size="is-medium">{{ template.priority }}</b-tag>
+                  <b-tag type="is-info" size="is-medium">{{ template.pivot.priority }}</b-tag>
             </b-taglist>
           </div>
         </template>
       </div>
 
       <span class="is-small has-text-grey-light">
-        Higher is better. Device has priority 100
+        Higher order priority
       </span>
     </div>
     <AddDialog v-model="addDialog"></AddDialog>

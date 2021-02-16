@@ -54,7 +54,7 @@
         item: {
           priority: 0,
           template_id: 0,
-          cpe_uuid: this.$route.params.uuid,
+          device_id: this.$route.params.id,
         },
         page: 1,
         totalPages: 1,
@@ -67,7 +67,7 @@
         this.saving = true;
         try {
          await this.$store.dispatch('device/assignTemplate', this.item)
-         this.$store.dispatch('device/fetchDeviceTemplates', this.item.cpe_uuid)
+         this.$store.dispatch('device/fetchDeviceTemplates', this.item.device_id)
 
         } catch (e) {
           this.$buefy.toast.open({

@@ -26,25 +26,17 @@ export default {
     }
   },
   async storeParameter(context, data) {
-    return await this._vm.$http.post(`/device/${data.id}/parameters`, {
-      name: data.name,
-      value: data.value,
-      flag: data.flag,
+    return await this._vm.$http.post(`/device/${data.device_id}/parameters`, {
+      ...data
     })
   },
   async updateParameters(context, data) {
-    return await this._vm.$http.put(`/device/${data.id}/parameters`, {
-      name: data.name,
-      value: data.value,
-      flag: data.flag,
+    return await this._vm.$http.put(`/device/${data.device_id}/parameters/${data.id}`, {
+      ...data
     })
   },
   async deleteParameter(context, data) {
-    return await this._vm.$http.delete(`/device/${data.id}/parameters`, {
-      data: {
-        name: data.name,
-      },
-    })
+    return await this._vm.$http.delete(`/device/${data.device_id}/parameters/${data.id}`)
   },
   async kickDevice(context, id) {
     return await this._vm.$http.get(`/device/${id}/kick`)
@@ -91,6 +83,6 @@ export default {
   },
 
   async addTask(context, params) {
-    return await this._vm.$http.post(`/device/${params.device_id}/tasks`, params.task)
+    return await this._vm.$http.post(`/device/${params.id}/tasks`, params.task)
   }
 }

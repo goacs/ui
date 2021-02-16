@@ -31,19 +31,15 @@ export default {
   },
   async storeParameter(context, parameters) {
     return await this._vm.$http.post(`/template/${parameters.templateId}/parameters`, {
-      name: parameters.name,
-      value: parameters.value,
-      flag: parameters.flag,
+      ...parameters
     })
   },
   async updateParameter(context, parameters) {
-    return await this._vm.$http.post(`/template/${parameters.templateId}/parameters/${parameters.uuid}`, {
-      name: parameters.name,
-      value: parameters.value,
-      flag: parameters.flag,
+    return await this._vm.$http.put(`/template/${parameters.templateId}/parameters/${parameters.id}`, {
+      ...parameters
     })
   },
   async deleteParameter(context, parameters) {
-    return await this._vm.$http.delete(`/template/${parameters.templateId}/parameters/${parameters.uuid}`)
+    return await this._vm.$http.delete(`/template/${parameters.templateId}/parameters/${parameters.id}`)
   }
 }

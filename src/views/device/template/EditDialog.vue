@@ -65,15 +65,16 @@
       save() {
         this.saving = true
         const params = {
-          cpe_uuid: this.$route.params.uuid,
-          template_id: this.item.id,
+          device_id: this.$route.params.id,
+          template_id: this.item.template_id,
           priority: this.item.priority,
         };
+        console.log(params);
         try {
           this.$store.dispatch('device/unAssignTemplate', params)
           this.$store.dispatch('device/assignTemplate', params)
           this.$emit('input', false);
-          setTimeout(() => this.$store.dispatch('device/fetchDeviceTemplates', params.cpe_uuid), 500)
+          setTimeout(() => this.$store.dispatch('device/fetchDeviceTemplates', params.device_id), 500)
         } catch (e) {
           this.$buefy.toast.open({
             type: 'is-danger',
@@ -88,7 +89,7 @@
       async unassign() {
         this.deleting = true;
         const params = {
-          cpe_uuid: this.$route.params.uuid,
+          device_id: this.$route.params.id,
           template_id: this.item.id,
           priority: this.item.priority,
         };
@@ -96,7 +97,7 @@
         try {
           await this.$store.dispatch('device/unAssignTemplate', params)
           this.$emit('input', false);
-          this.$store.dispatch('device/fetchDeviceTemplates', params.cpe_uuid)
+          this.$store.dispatch('device/fetchDeviceTemplates', params.device_id)
         } catch (e) {
           this.$buefy.toast.open({
             type: 'is-danger',

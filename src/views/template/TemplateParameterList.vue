@@ -47,6 +47,12 @@
             </template>
           </b-table-column>
 
+          <b-table-column field="type" label="Type">
+            <template v-slot="props">
+              {{ props.row.type }}
+            </template>
+          </b-table-column>
+
           <b-table-column field="value" label="Value" searchable>
             <template
                     slot="searchable"
@@ -124,6 +130,10 @@
             searchable: true,
           },
           {
+            text: 'Type',
+            value: 'type',
+          },
+          {
             text: 'Value',
             value: 'value'
           },
@@ -189,7 +199,6 @@
         this.editDialog = true
       },
       async storeParameter(savedItem) {
-        console.log(savedItem)
         try {
           await this.$store.dispatch('template/storeParameter', savedItem)
           this.addDialog = false
@@ -223,7 +232,7 @@
       async deleteParameter(savedItem) {
         try {
           await this.$store.dispatch('template/deleteParameter', {
-            uuid: savedItem.uuid,
+            id: savedItem.id,
             templateId: savedItem.template_id,
           })
           this.editDialog = false

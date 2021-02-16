@@ -48,6 +48,12 @@
             </template>
           </b-table-column>
 
+          <b-table-column field="type" label="Type">
+            <template v-slot="props">
+              {{ props.row.type }}
+            </template>
+          </b-table-column>
+
           <b-table-column field="value" label="Value" searchable>
             <template
                     slot="searchable"
@@ -130,6 +136,10 @@
             searchable: true,
           },
           {
+            text: 'Type',
+            value: 'type',
+          },
+          {
             text: 'Value',
             value: 'value'
           },
@@ -196,7 +206,7 @@
       },
       addObject(item) {
         this.$store.dispatch('device/addObject', {
-          uuid: this.device.uuid,
+          id: this.device.id,
           name: item.name,
           key: '',
         })
@@ -209,10 +219,8 @@
       async storeParameter(item) {
         try {
           await this.$store.dispatch('device/storeParameter', {
-            uuid: this.device.uuid,
-            name: item.name,
-            value: item.value,
-            flags: item.flags,
+            device_id: this.device.id,
+            ...item
           })
           this.addDialog = false
           await this.$refs.table.fetchItems()
@@ -233,10 +241,8 @@
       async updateParameter(item) {
         try {
           await this.$store.dispatch('device/updateParameters', {
-            uuid: this.device.uuid,
-            name: item.name,
-            value: item.value,
-            flag: item.flag,
+            device_id: this.device.id,
+            ...item
           })
           this.editDialog = false
           await this.$refs.table.fetchItems()
@@ -253,8 +259,8 @@
       async deleteParameter(item) {
         try {
           await this.$store.dispatch('device/deleteParameter', {
-            uuid: this.device.uuid,
-            name: item.name,
+            device_id: this.device.id,
+            ...item
           })
           this.editDialog = false
           await this.$refs.table.fetchItems()

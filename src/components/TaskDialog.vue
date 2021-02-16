@@ -2,7 +2,6 @@
   <b-modal
           v-model="value"
           has-modal-card
-          width="1200"
           scroll="keep"
   >
     <form>
@@ -173,6 +172,6 @@
   position: static;
 }
 .modal-card {
-  width: 100%;
+  /*width: 100%;*/
 }
 </style>

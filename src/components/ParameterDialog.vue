@@ -38,6 +38,13 @@
                     placeholder="Value">
             </b-input>
           </b-field>
+          <b-field label="Type" label-position="on-border">
+            <b-input
+                type="text"
+                v-model="item.type"
+                placeholder="Type">
+            </b-input>
+          </b-field>
           <b-field label="Flags">
             <FlagInput v-model="item.flags"></FlagInput>
           </b-field>

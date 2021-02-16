@@ -11,8 +11,9 @@
   import { PrismEditor } from "vue-prism-editor";
   import "vue-prism-editor/dist/prismeditor.min.css";
   import { highlight, languages } from "prismjs/components/prism-core";
-  import "prismjs/components/prism-clike";
-  import "prismjs/components/prism-go";
+  import "prismjs/components/prism-markup";
+  import "prismjs/components/prism-markup-templating";
+  import "prismjs/components/prism-php";
   import "prismjs/themes/prism.css";
   import "prismjs/plugins/custom-class/prism-custom-class";
 
@@ -33,7 +34,7 @@
     }),
     methods: {
       highlighter(code) {
-        return highlight(code, languages.go);
+        return highlight(code, languages.php);
       }
     },
     mounted() {
