@@ -1,9 +1,12 @@
 // import axios from 'axios'
 
 
+import {filterToQueryString} from "@/helpers/URL";
+
 export default {
-  async list(context, paginationData) {
-    return await this._vm.$http.get('/file?page='+paginationData.page+'&per_page='+paginationData.perPage)
+  async list(context, parameters) {
+    const filterStr = filterToQueryString(parameters.filter)
+    return await this._vm.$http.get(`/file?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
   },
   async all({ commit }) {
     const response = await this._vm.$http.get('/file')
@@ -18,5 +21,10 @@ export default {
         'Content-Type': 'multipart/form-data'
       }
     })
+  },
+  async download(context, file_id) {
+      return await this._vm.$http.get(`/file/${file_id}/download`, {
+        responseType: 'blob',
+      })
   }
 }
