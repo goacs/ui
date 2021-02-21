@@ -68,9 +68,19 @@
             </b-table-column>
 
             <b-table-column field="actions" label="Actions" v-slot="props">
-                <b-button tag="a" type="is-primary" @click="download(props.row)">
-                    <b-icon icon="download"></b-icon>
-                </b-button>
+              <section class="b-tooltips">
+                <b-tooltip label="Download" type="is-dark">
+                  <b-button tag="a" type="is-primary" size="is-small" @click="download(props.row)">
+                      <b-icon icon="download" size="is-small"></b-icon>
+                  </b-button>
+                </b-tooltip>
+
+                <b-tooltip label="Delete" type="is-dark">
+                  <b-button type="is-primary" size='is-small' @click="deleteFile(props.row)">
+                    <b-icon icon="delete" size="is-small"></b-icon>
+                  </b-button>
+                </b-tooltip>
+              </section>
             </b-table-column>
         </PaginatedTable>
     </div>
@@ -107,17 +117,39 @@
             }
         },
         methods: {
-            download(file) {
-              const response = this.$store.dispatch('file/download', file.id)
-              saveAs(response.data, file.name)
-            },
-            refreshList() {
-                this.$refs.table.fetchItems()
+          download(file) {
+            const response = this.$store.dispatch('file/download', file.id)
+            saveAs(response.data, file.name)
+          },
+          async deleteFile(file) {
+            if(confirm(`Delete file: ${file.name}?`) === false) {
+              return;
             }
+
+            try {
+              await this.$store.dispatch('file/delete', file.id)
+              this.refreshList()
+            } catch (e) {
+              this.$buefy.toast.open({
+                duration: 5000,
+                message: `Cannot delete file: ${e.response.data.message}`,
+                position: 'is-bottom',
+                type: 'is-danger'
+              })
+            }
+
+          },
+          refreshList() {
+              this.$refs.table.fetchItems()
+          }
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.b-tooltips {
+  .b-tooltip:not(:last-child) {
+    margin-right: .5em
+  }
+}
 </style>

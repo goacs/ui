@@ -10,24 +10,28 @@
           <p class="modal-card-title">Upload file</p>
         </header>
         <section class="modal-card-body">
+          <b-field label="File type">
+            <b-select placeholder="Select" v-model="type">
+              <option selected value="1 FIRMWARE">
+                1 FIRMWARE
+              </option>
+            </b-select>
+          </b-field>
           <b-field class="file is-primary" :class="{'has-name': !!file}">
-            <b-upload v-model="file" class="file-label" @input="upload" :loading="uploading" drag-drop expanded>
-              <section class="section">
-                <div class="content has-text-centered">
-                  <p>
-                    <b-icon
-                            icon="upload"
-                            size="is-large">
-                    </b-icon>
-                  </p>
-                  <p>Drop your files here or click to upload</p>
-                </div>
-              </section>
+            <b-upload v-model="file" class="file-label" :loading="uploading" expanded>
+              <span class="file-cta">
+                <b-icon class="file-icon" icon="upload"></b-icon>
+                <span class="file-label">Click to upload</span>
+              </span>
+              <span class="file-name" v-if="file">
+                {{ file.name }}
+              </span>
             </b-upload>
           </b-field>
         </section>
         <footer class="modal-card-foot">
           <b-button @click="$emit('input', false)">Close</b-button>
+          <b-button @click="upload" class="is-primary">Save</b-button>
         </footer>
       </div>
     </form>
@@ -44,16 +48,20 @@
     },
     data() {
       return {
+        type: '1 FIRMWARE',
         file: null,
         uploading: false,
       }
     },
     methods: {
-      upload(file) {
+      upload() {
         this.uploading = true
 
         try {
-          this.$store.dispatch('file/upload', file)
+          this.$store.dispatch('file/upload', {
+            file: this.file,
+            type: this.type,
+          })
           setTimeout(() => this.$emit('uploaded', true), 500);
         } catch (e) {
           this.$buefy.toast.open({

@@ -35,10 +35,9 @@
     export default {
         name: "Login",
         data: () => ({
-            email: '',
-            password: '',
-            loading: false,
-            errors: [],
+          email: '',
+          password: '',
+          loading: false,
         }),
         methods: {
             async login() {
@@ -49,7 +48,7 @@
                         password: this.password,
                     })
                 } catch (e) {
-                    // this.errors = e.response.data.data;
+                    this.errors = e.response.data.errors;
                 } finally {
                     this.loading = false
                 }

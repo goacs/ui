@@ -9,11 +9,13 @@ import store from './store'
 import router from './router'
 import moment from 'moment'
 import Buefy from 'buefy'
+import errors from './helpers/errors.mixin'
 // import VueSocketIO from 'vue-socket.io'
 // import 'buefy/dist/buefy.css'
 import './assets/styles/main.scss'
 
 Vue.use(Buefy)
+Vue.mixin(errors)
 
 
 Vue.config.productionTip = false
@@ -23,7 +25,7 @@ axios.defaults.headers['Authorization'] = 'Bearer {auth_token}'
 
 Vue.use(VueAxios, axios)
 
-moment.defaultFormat = "YYYY-MM-DD hh:mm:ss"
+moment.defaultFormat = "YYYY-MM-DD HH:mm:ss"
 Vue.use(require('vue-moment'), { moment })
 
 const authPluginOptions = { ...DEFAULT_OPTIONS,

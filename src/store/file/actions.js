@@ -13,9 +13,10 @@ export default {
     commit('setFilesList', response.data.data)
     return response
   },
-  async upload(context, file) {
+  async upload(context, params) {
     const formData = new FormData();
-    formData.append('file', file)
+    formData.append('file', params.file)
+    formData.append('type', params.type)
     return await this._vm.$http.post('/file', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -26,5 +27,8 @@ export default {
       return await this._vm.$http.get(`/file/${file_id}/download`, {
         responseType: 'blob',
       })
+  },
+  async delete(context, file_id) {
+    return await this._vm.$http.delete(`/file/${file_id}`);
   }
 }

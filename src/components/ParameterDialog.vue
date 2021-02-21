@@ -2,6 +2,7 @@
   <b-modal
           v-model="value"
           has-modal-card
+          :canCancel="false"
   >
     <form>
       <div class="modal-card">

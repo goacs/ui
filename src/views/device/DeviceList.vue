@@ -62,7 +62,7 @@
           </b-table-column>
 
           <b-table-column field="updated_at" label="Last connection time" v-slot="props">
-            {{ props.row.updated_at }}
+            {{ props.row.updated_at | moment }}
           </b-table-column>
 
           <b-table-column field="actions" label="Actions" v-slot="props">

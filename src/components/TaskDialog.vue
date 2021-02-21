@@ -3,6 +3,7 @@
           v-model="value"
           has-modal-card
           scroll="keep"
+          :canCancel="false"
   >
     <form>
       <div class="modal-card">
