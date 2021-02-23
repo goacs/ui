@@ -48,7 +48,16 @@
             </template>
           </b-table-column>
 
-          <b-table-column field="type" label="Type">
+          <b-table-column field="type" label="Type" searchable>
+            <template
+                slot="searchable"
+                slot-scope="props">
+              <b-input
+                  v-model="props.filters[props.column.field]"
+                  placeholder="Search..."
+                  icon="magnify"
+                  size="is-small" />
+            </template>
             <template v-slot="props">
               {{ props.row.type }}
             </template>
