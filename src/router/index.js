@@ -54,7 +54,7 @@ const routes = [
           {
             path: 'tasks',
             name: 'settings-tasks',
-            component: () => import('@/views/settings/TasksList.vue'),
+            component: () => import('@/views/settings/tasks/TasksList.vue'),
           },
         ]
       }

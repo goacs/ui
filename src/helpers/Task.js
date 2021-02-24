@@ -2,16 +2,16 @@ export class Task {
     constructor() {
         this.id = 0
         this.infinite = false
-        this.for_name = ''
+        this.for_type = ''
         this.for_id = ''
         this.not_before = new Date()
-        this.task = ''
+        this.name = ''
         this.payload = {}
     }
 
     for(id, name) {
         this.for_id = id
-        this.for_name = name
+        this.for_type = name
         return this
     }
 
@@ -25,28 +25,28 @@ export class Task {
     }
 
     asAddObject(path) {
-        this.task = 'AddObject'
+        this.name = 'AddObject'
         this.payload = {
-            path: path
+            parameter: path
         }
     }
 
     asDeleteObjectTask(path) {
-        this.task = 'DeleteObject'
+        this.name = 'DeleteObject'
         this.payload = {
-            path: path
+            parameter: path
         }
     }
 
     asScriptTask(script) {
-        this.task = 'RunScript'
+        this.name = 'RunScript'
         this.payload = {
             script: script
         }
     }
 
     asFirmwareUpdateTask(filetype, filename) {
-        this.task = 'UploadFirmware'
+        this.name = 'UploadFirmware'
         this.payload = {
             filetype: filetype,
             filename: filename,
@@ -54,7 +54,7 @@ export class Task {
     }
 
     asReboot() {
-        this.task = 'Reboot'
+        this.name = 'Reboot'
         this.payload = {}
     }
 }

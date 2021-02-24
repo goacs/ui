@@ -64,8 +64,8 @@
                       size="is-small" />
             </template>
             <template v-slot="props">
-              <template v-if="props.row.value.length > 100">
-                {{ stripString(props, 100) }}
+              <template v-if="props.row.value.length > 50">
+                {{ stripString(props, 50) }}
                 <b-button
                 @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
                 size="is-small"
@@ -100,7 +100,7 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <pre>{{ props.row.valuestruct.value }}</pre>
+                  <pre>{{ props.row.value }}</pre>
                 </div>
               </div>
             </article>

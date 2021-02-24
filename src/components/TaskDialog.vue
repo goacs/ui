@@ -6,7 +6,7 @@
           :canCancel="false"
   >
     <form>
-      <div class="modal-card">
+      <div class="modal-card" style="width: 100%">
         <header class="modal-card-head">
           <p class="modal-card-title">{{ isNew ? `Add` : `Edit` }} task</p>
           <div class="card-header-icon" aria-label="more options" v-if="isNew === false">
@@ -29,7 +29,7 @@
           <div class="content">
           <b-field label="Event" horizontal>
             <b-select placeholder="Select event"
-                      v-model="event"
+                      v-model="on_request"
             >
               <option value="inform">Inform</option>
 <!--              <option value="empty">Empty</option>-->
@@ -38,7 +38,7 @@
           </b-field>
           <b-field label="Type" horizontal>
             <b-select placeholder="Select type"
-              v-model="type"
+              v-model="name"
             >
               <option value="RunScript">Run Script</option>
               <option value="SendParameters">Send Parameters</option>
@@ -51,11 +51,11 @@
               {{ infinite ? `Payload will be not deleted when executed` : `` }}
             </b-checkbox>
           </b-field>
-          <b-field v-if="type === 'RunScript'" label="Script" horizontal>
+          <b-field v-if="name === 'RunScript'" label="Script" horizontal>
             <CodeEditor v-model="script"></CodeEditor>
 <!--            <b-input type="textarea" v-model="task.script"></b-input>-->
           </b-field>
-          <template v-if="type === 'UploadFirmware'">
+          <template v-if="name === 'UploadFirmware'">
           <b-field label="Choose file" horizontal>
               <FirmwareSelect v-model="fileName"/>
           </b-field>
@@ -106,8 +106,8 @@
         saving: false,
         fileName: '',
         fileType: '',
-        type: '',
-        event: '',
+        name: '',
+        on_request: '',
         script: '',
         path: '',
         infinite: false,
@@ -119,39 +119,38 @@
     },
     methods: {
       serializeTask() {
-        this.newtask.event = this.event
+        this.newtask.on_request = this.on_request
         this.newtask.for_id = this.for_id
-        this.newtask.for_name = this.for_name
+        this.newtask.for_type = this.for_type
         this.newtask.id = this.taskid
-        if(this.type === 'UploadFirmware') {
+        if(this.name === 'UploadFirmware') {
           this.newtask.asFirmwareUpdateTask(this.fileType, this.fileName)
-        } else if (this.type === 'RunScript') {
+        } else if (this.name === 'RunScript') {
           this.newtask.asScriptTask(this.script)
-        } else if (this.type === 'AddObject') {
+        } else if (this.name === 'AddObject') {
           this.newtask.asAddObject(this.path)
-        } else if (this.type === 'DeleteObject') {
+        } else if (this.name === 'DeleteObject') {
           this.newtask.asDeleteObjectTask(this.path)
-        } else if(this.type === 'Reboot') {
+        } else if(this.name === 'Reboot') {
           this.newtask.asReboot()
         }
-        this.newtask.payload = JSON.stringify(this.newtask.payload)
       },
       unserializeTask() {
-        this.type = this.task.task
-        this.event = this.task.event
+        this.name = this.task.name
+        this.on_request = this.task.on_request
         this.infinite = this.task.infinite
         this.for_id = this.task.for_id
-        this.for_name = this.task.for_name
+        this.for_type = this.task.for_type
         this.taskid = this.task.id
-        if(this.type === 'UploadFirmware') {
+        if(this.name === 'UploadFirmware') {
           this.fileType = this.task.payload.filetype
           this.fileName = this.task.payload.filename
-        } else if (this.type === 'RunScript') {
+        } else if (this.name === 'RunScript') {
           this.script = this.task.payload.script
-        } else if (this.type === 'AddObject') {
-          this.path = this.task.payload.path
-        } else if (this.type === 'DeleteObject') {
-          this.path = this.task.payload.path
+        } else if (this.name === 'AddObject') {
+          this.path = this.task.payload.parameter
+        } else if (this.name === 'DeleteObject') {
+          this.path = this.task.payload.parameter
         }
       },
       save() {
@@ -168,11 +167,9 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .dropdown-menu {
   position: static;
 }
-.modal-card {
-  /*width: 100%;*/
-}
+
 </style>

@@ -50,11 +50,14 @@
   }
 </script>
 
-<style>
+<style type="scss">
+
   .my-editor {
     background: #f5f2f0;
     font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
     padding: 5px;
+
+
   }
 
   .height-300 {

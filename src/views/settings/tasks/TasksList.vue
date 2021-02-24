@@ -26,7 +26,7 @@
           <tr>
             <th>ID</th>
             <th>For</th>
-            <th>Event</th>
+            <th>On request</th>
             <th>Task</th>
             <th>Payload</th>
             <th>Infinite</th>
@@ -45,9 +45,9 @@
 </template>
 
 <script>
-  import TaskRow from "./tasks/TaskRow";
+  import TaskRow from "./TaskRow";
   import {mapGetters} from "vuex";
-  import TaskDialog from "../../components/TaskDialog";
+  import TaskDialog from "../../../components/TaskDialog";
   export default {
     name: "TasksList",
     components: {TaskDialog, TaskRow},

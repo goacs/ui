@@ -1,9 +1,10 @@
 <template>
   <tr>
     <td>{{ task.id }}</td>
-    <td>{{ task.for_name }} {{ task.for_id }}</td>
-    <td>{{ task.event }}</td>
-    <td>{{ task.task }}</td>
+    <td v-if="task.for_id === 0">{{ task.for_type }}</td>
+    <td v-else>{{ task.for_type }} {{ task.for_id }}</td>
+    <td>{{ task.on_request }}</td>
+    <td>{{ task.name }}</td>
     <td>{{ stripString(task.payload, 50) }}</td>
     <td>{{ task.infinite }}</td>
     <td>
