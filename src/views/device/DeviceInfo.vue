@@ -66,7 +66,7 @@
           Provision
         </b-button>
         <b-button
-                @click="getParameterValues"
+                @click="lookup"
         >
           Lookup parameters
         </b-button>
@@ -95,8 +95,8 @@
       kick() {
         this.$store.dispatch('device/kickDevice', this.device.id)
       },
-      getParameterValues() {
-        this.$store.dispatch('device/fetchParameterValues', this.device.id)
+      lookup() {
+        this.$store.dispatch('device/lookup', this.device.id)
       }
     }
   }

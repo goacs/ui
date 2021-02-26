@@ -51,8 +51,8 @@ export default {
       key,
     })
   },
-  async fetchParameterValues(context, id) {
-    return await this._vm.$http.post(`/device/${id}/getparametervalues`)
+  async lookup(context, id) {
+    return await this._vm.$http.get(`/device/${id}/lookup`)
   },
   async fetchQueuedTasks({ commit }, id) {
     try {

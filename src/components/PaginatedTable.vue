@@ -48,6 +48,7 @@ export default {
       items: [],
       filter: {},
       total: 0,
+      meta: {},
       footerOptions: {itemsPerPageOptions: [25, 50, 100, 300]},
       options: {
         itemsPerPage: 25,
@@ -65,12 +66,18 @@ export default {
       this.filter = filter;
       this.fetchItems();
     },
+    getMeta() {
+      return this.meta
+    },
     async fetchItems() {
       try {
         this.loading = true;
         const response = await this.$store.dispatch(this.actionData.name, this.actionData.parameters)
         this.items = response.data.data ?? []
         this.total = response.data.total ?? 0
+        // eslint-disable-next-line no-unused-vars
+        const {data, ...meta} = response.data
+        this.meta = meta;
       } catch (e) {
         console.error("Cannot load table items")
       } finally {

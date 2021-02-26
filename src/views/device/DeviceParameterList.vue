@@ -31,6 +31,7 @@
                 detail-key="name"
                 :show-detail-icon="false"
                 ref="table"
+                :row-class="setColorOnDiff"
 
         >
           <b-table-column field="name" label="Name" searchable>
@@ -74,8 +75,8 @@
                       size="is-small" />
             </template>
             <template v-slot="props">
-              <template v-if="props.row.value.length > 100">
-                {{ stripString(props, 100) }}
+              <template v-if="props.row.value.length > 50">
+                {{ stripString(props, 50) }}
                 <b-button
                 @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
                 size="is-small"
@@ -110,6 +111,24 @@
               </b-button>
               </b-tooltip>
             </section>
+          </b-table-column>
+          <b-table-column field="lookup" label="Lookup" v-if="hasCachedLookupItems">
+
+            <template v-slot="props">
+              <template v-if="props.row.cached.length > 50">
+                {{ stripString(props, 50) }}
+                <b-button
+                    @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
+                    size="is-small"
+                    type="is-primary"
+                >
+                  ...
+                </b-button>
+              </template>
+              <template v-else>
+                {{ props.row.cached }}
+              </template>
+            </template>
           </b-table-column>
           <template slot="detail"  slot-scope="props">
             <article class="media">
@@ -206,6 +225,19 @@
       }),
     },
     methods: {
+      setColorOnDiff(row) {
+        if(!row['cached']) {
+          return '';
+        }
+
+        if(row.value === row.cached) {
+          return '';
+        }
+        return 'is-info'
+      },
+      hasCachedLookupItems() {
+        return this.$refs.table.items.filter(item => item['cached']).length > 0
+      },
       parseFlag(flag) {
         const parser = new FlagParser(flag)
         return parser.toString()
@@ -293,7 +325,12 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+
+  .is-info {
+    background: #f5f5f5;
+  }
+
   .b-tooltips {
     .b-tooltip:not(:last-child) {
       margin-right: .5em
@@ -307,5 +344,4 @@
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
   }
-
 </style>
