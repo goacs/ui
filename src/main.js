@@ -10,7 +10,7 @@ import router from './router'
 import moment from 'moment'
 import Buefy from 'buefy'
 import errors from './helpers/errors.mixin'
-// import VueSocketIO from 'vue-socket.io'
+import VueSocketIO from 'vue-socket.io'
 // import 'buefy/dist/buefy.css'
 import './assets/styles/main.scss'
 
@@ -50,16 +50,16 @@ const authPluginOptions = { ...DEFAULT_OPTIONS,
 
 Vue.use(VueAuth, authPluginOptions)
 
-// Vue.use(new VueSocketIO({
-//   debug: true,
-//   connection: "http://localhost:8085",
-//   vuex: {
-//     store,
-//     actionPrefix: 'SOCKET_',
-//     mutationPrefix: 'SOCKET_',
-//   },
-//   options: { path: "/socket.io/" }
-// }))
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: "http://localhost:8085",
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_',
+  },
+  options: { path: "/socket.io/" }
+}))
 
 new Vue({
   store,
