@@ -78,6 +78,7 @@ export default {
         // eslint-disable-next-line no-unused-vars
         const {data, ...meta} = response.data
         this.meta = meta;
+        this.$emit('items:loaded', true)
       } catch (e) {
         console.error("Cannot load table items")
       } finally {

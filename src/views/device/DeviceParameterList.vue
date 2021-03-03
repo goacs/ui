@@ -32,6 +32,7 @@
                 :show-detail-icon="false"
                 ref="table"
                 :row-class="setColorOnDiff"
+                @items:loaded="toggleLookup"
 
         >
           <b-table-column field="name" label="Name" searchable>
@@ -112,10 +113,10 @@
               </b-tooltip>
             </section>
           </b-table-column>
-          <b-table-column field="lookup" label="Lookup" v-if="hasCachedLookupItems">
+          <b-table-column field="lookup" label="Lookup" v-if="lookup">
 
             <template v-slot="props">
-              <template v-if="props.row.cached.length > 50">
+              <template v-if="props.row.cached && props.row.cached.length > 50">
                 {{ stripString(props, 50) }}
                 <b-button
                     @click="$refs.table.$refs.basetable.toggleDetails(props.row)"
@@ -125,7 +126,7 @@
                   ...
                 </b-button>
               </template>
-              <template v-else>
+              <template v-else-if="props.row.cached">
                 {{ props.row.cached }}
               </template>
             </template>
@@ -157,6 +158,7 @@
     components: {ParameterDialog, PaginatedTable },
     data() {
       return {
+        lookup: false,
         headers: [
           {
             text: 'Name',
@@ -235,8 +237,11 @@
         }
         return 'is-info'
       },
-      hasCachedLookupItems() {
-        return this.$refs.table.items.filter(item => item['cached']).length > 0
+      toggleLookup() {
+         this.lookup = this.$refs.table.items.filter(function(item) {
+          // eslint-disable-next-line no-prototype-builtins
+          return item.hasOwnProperty('cached')
+        }).length > 0
       },
       parseFlag(flag) {
         const parser = new FlagParser(flag)

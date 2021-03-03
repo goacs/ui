@@ -20,9 +20,19 @@ export default {
     try {
       const response = await this._vm.$http.get(`/device/${parameters.id}/parameters?page=${parameters.page}&per_page=${parameters.perPage}${filterStr}`)
       commit('setParameters', response.data.data)
+      commit('hasCachedParams', response.data.has_cached_items)
       return response
     } catch (e) {
       console.error("Cannot fetch device parameters")
+    }
+  },
+  async fetchCachedParameters({ commit }, device_id) {
+    try {
+      const response = await this._vm.$http.get(`/device/${device_id}/parameters/cached`)
+      commit('setCachedParameters', response.data.data)
+      return response
+    } catch (e) {
+      console.error("Cannot fetch device cached parameters")
     }
   },
   async storeParameter(context, data) {
@@ -39,7 +49,7 @@ export default {
     return await this._vm.$http.delete(`/device/${data.device_id}/parameters/${data.id}`)
   },
   async kickDevice(context, id) {
-    return await this._vm.$http.get(`/device/${id}/kick`)
+    return await this._vm.$http.get(`/device/${id}/provision`)
   },
   async deleteDevice(context, id) {
     return await this._vm.$http.delete(`/device/${id}`)

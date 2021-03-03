@@ -123,6 +123,7 @@
         this.newtask.for_id = this.for_id
         this.newtask.for_type = this.for_type
         this.newtask.id = this.taskid
+        this.newtask.infinite = this.infinite
         if(this.name === 'UploadFirmware') {
           this.newtask.asFirmwareUpdateTask(this.fileType, this.fileName)
         } else if (this.name === 'RunScript') {

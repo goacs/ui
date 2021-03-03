@@ -70,20 +70,35 @@
         >
           Lookup parameters
         </b-button>
+        <b-button
+            v-if="hasCachedParams"
+            @click="cached"
+        >
+          Cached parameters
+        </b-button>
       </div>
     </div>
+  <CachedParametersDialog v-model="cachedParamsDialog"></CachedParametersDialog>
   </div>
 </template>
 
 <script>
   import {mapGetters} from "vuex";
+  import CachedParametersDialog from "@/components/CachedParametersDialog";
 
   export default {
     name: "DeviceInfo",
+    components: {CachedParametersDialog},
     computed: {
       ...mapGetters({
         device: 'device/getDevice',
+        hasCachedParams: 'device/hasCachedParams'
       }),
+    },
+    data() {
+      return {
+        cachedParamsDialog: false,
+      };
     },
     mounted() {
     },
@@ -97,6 +112,10 @@
       },
       lookup() {
         this.$store.dispatch('device/lookup', this.device.id)
+      },
+      cached() {
+        this.$store.dispatch('device/fetchCachedParameters', this.device.id);
+        this.cachedParamsDialog = true;
       }
     }
   }
